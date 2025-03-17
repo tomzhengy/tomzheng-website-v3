@@ -1,24 +1,15 @@
 "use client"
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
 
 export default function Home() {
-  const [showOverlay, setShowOverlay] = useState(false);
-  
-  useEffect(() => {
-    setShowOverlay(true);
-  }, []);
-
   return (
     <div className="flex min-h-screen justify-center">
-      {showOverlay && <div className="page-overlay" />}
-      
       <div className="text-left max-w-[500px] w-full px-4 pt-[10vh] sm:pt-[15vh] md:pt-[20vh]">
-        <p className="text-xl">hey! i&apos;m Tom—more coming soon.</p>
+        <p className="text-xl">hey! i'm Tom—more coming soon.</p>
 
         <p className="text-xl">anyways, i <b>love</b> meeting new people.
-            so let&apos;s <a href="https://cal.com/tomzheng/chat" className="underline decoration-gray-300 hover:decoration-white transition-colors">chat</a>.</p>
+            so let's <a href="https://cal.com/tomzheng/chat" className="underline decoration-gray-300 hover:decoration-white transition-colors">chat</a>.</p>
         
         <div className="mt-10 mb-12">
           <p className="text-xl mb-2">my time:</p>
