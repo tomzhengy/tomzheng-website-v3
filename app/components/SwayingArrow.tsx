@@ -9,20 +9,11 @@ const SwayingArrow: React.FC<SwayingArrowProps> = ({ className = '' }) => {
     <span className={`swaying-arrow-container inline-block ${className}`}>
       <style jsx>{`
         @keyframes sway {
-          0% {
+          0%, 100% {
             transform: translateX(0);
-          }
-          25% {
-            transform: translateX(-3px);
           }
           50% {
-            transform: translateX(0);
-          }
-          75% {
-            transform: translateX(2px);
-          }
-          100% {
-            transform: translateX(0);
+            transform: translateX(6px);
           }
         }
         
@@ -36,11 +27,11 @@ const SwayingArrow: React.FC<SwayingArrowProps> = ({ className = '' }) => {
         
         .swaying-arrow {
           display: inline-block;
-          font-size: 0.9em;
-          animation: sway 1.5s ease-in-out infinite;
+          font-size: 1em;
+          animation: sway 1.2s ease-in-out infinite;
           position: absolute;
-          left: 7px;
-          top: -15;
+          left: 5px;
+          top: -17px;
           line-height: 1;
         }
       `}</style>
@@ -49,4 +40,4 @@ const SwayingArrow: React.FC<SwayingArrowProps> = ({ className = '' }) => {
   );
 };
 
-export default SwayingArrow; 
+export default SwayingArrow;

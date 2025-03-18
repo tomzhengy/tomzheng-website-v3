@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, ReactNode, useMemo, useRef } from 'react';
+import { useState, useEffect, ReactNode, useRef } from 'react';
 import React from 'react';
 
 interface PausePoint {
@@ -46,11 +46,6 @@ const TypeWriter = ({
   const totalLength = usingSegments
     ? segments!.reduce((acc, segment) => acc + segment.text.length, 0)
     : text?.length || 0;
-
-  // Get full text for calculation purposes
-  const fullText = usingSegments
-    ? segments!.map(segment => segment.text).join('')
-    : text || '';
 
   useEffect(() => {
     // Start the typing animation
@@ -109,7 +104,7 @@ const TypeWriter = ({
 
   // Render function for segments
   const renderSegments = () => {
-    let renderedOutput: ReactNode[] = [];
+    const renderedOutput: ReactNode[] = [];
     let globalIndex = 0;
     
     segments!.forEach((segment, segmentIndex) => {
