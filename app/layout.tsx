@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Tom Zheng",
-  description: "Tom Zheng is a founder and engineer based in San Francisco, building linkd (a social network for the 21st century, social network for experiences) as part of Y Combinator X25, working on his O1 visa, and developing the SDX community at UCSD.",
+  description: "Tom Zheng is a co-founder at Linkd, working on building a modern search algorithm for the experiences of people as part of Y Combinator X25, working on his O1 visa, and developing the SDX community at UCSD.",
   keywords: ["Tom Zheng", "linkd", "San Francisco", "founder", "engineer", "O1 visa", "SDX", "UCSD", "Y Combinator", "Y Combinator X25", "YC X25", "linkd inc", "linkd.inc", "Tom", "Tom Zheng"],
   authors: [{ name: "Tom Zheng" }],
   creator: "Tom Zheng",
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://tomzheng.dev",
     title: "Tom Zheng",
-    description: "Tom Zheng is a founder and engineer based in San Francisco, building linkd (a social network for the 21st century, social network for experiences) as part of Y Combinator X25, working on his O1 visa, and developing the SDX community at UCSD.",
+    description: "Tom Zheng is a co-founder at Linkd, working on building a modern search algorithm for the experiences of people as part of Y Combinator X25, working on his O1 visa, and developing the SDX community at UCSD.",
     siteName: "Tom Zheng",
     images: [{
       url: "/notion-face-portrait.png",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Tom Zheng",
-    description: "Tom Zheng is a founder and engineer based in San Francisco, building linkd (a social network for the 21st century, social network for experiences) as part of Y Combinator X25, working on his O1 visa, and developing the SDX community at UCSD.",
+    description: "Tom Zheng is a co-founder at Linkd, working on building a modern search algorithm for the experiences of people as part of Y Combinator X25, working on his O1 visa, and developing the SDX community at UCSD.",
     images: ["/notion-face-portrait.png"]
   },
   icons: {
@@ -36,9 +36,6 @@ export const metadata: Metadata = {
     apple: [
       { url: '/notion-face-portrait.png' }
     ]
-  },
-  verification: {
-    google: "google-site-verification-code", // Replace with your actual verification code if you have one
   },
   alternates: {
     canonical: "https://tomzheng.dev"
