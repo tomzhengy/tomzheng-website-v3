@@ -1,17 +1,59 @@
 "use client"
 
 import Image from "next/image";
-import { Suspense, useState } from "react";
+import { Suspense, useState, ReactNode } from "react";
 import Script from "next/script";
+import TypeWriter from "./components/TypeWriter";
+import SwayingArrow from "./components/SwayingArrow";
 
 export default function Home() {
   const [emailCopied, setEmailCopied] = useState(false);
+  const [introComplete, setIntroComplete] = useState(false);
   
   const copyEmailToClipboard = () => {
     navigator.clipboard.writeText("tom@linkd.inc");
     setEmailCopied(true);
     setTimeout(() => setEmailCopied(false), 2000);
   };
+
+  // Define the intro text with pause points
+  const introText = "hey! i'm Tom—more coming soon...";
+  const introPauses = [
+    { index: 5, duration: 900 }, // Pause after "hey!"
+    { index: 12, duration: 900 }, // Pause after "Tom"
+    { index: 30, duration: 300 }, // Pause after the first dot
+    { index: 31, duration: 500 }, // Pause after the second dot
+  ];
+
+  // Define the paragraph segments with custom rendering for "love" and "chat"
+  const paragraphSegments = [
+    { text: "anyways, i " },
+    { 
+      text: "love",
+      render: (text: string): ReactNode => <b>{text}</b>
+    },
+    { text: " meeting new people. so let's " },
+    { 
+      text: "chat",
+      render: (text: string): ReactNode => (
+        <a 
+          href="https://cal.com/tomzheng/chat" 
+          className="underline decoration-gray-300 hover:decoration-white transition-colors" 
+          aria-label="Schedule a chat with Tom"
+        >
+          {text}
+        </a>
+      )
+    },
+    { text: "." }
+  ];
+  
+  // Define the paragraph pause points based on global character indices
+  const paragraphPauses = [
+    { index: 9, duration: 500 }, // Pause after "anyways,"
+    { index: 35, duration: 700 }, // Longer pause after "."
+    { index: 50, duration: 300 }, // Pause after "chat"
+  ];
 
   return (
     <>
@@ -41,17 +83,34 @@ export default function Home() {
       <main className="flex min-h-screen justify-center">
         <div className="text-left max-w-[500px] w-full px-4 pt-[10vh] sm:pt-[15vh] md:pt-[10vh]">
           <section aria-labelledby="introduction">
-            <h1 id="introduction" className="text-xl">hey! i&apos;m Tom—more coming soon<span className="blinking-cursor">_</span></h1>
+            <h1 id="introduction" className="text-xl">
+              <TypeWriter 
+                text={introText} 
+                pausePoints={introPauses} 
+                typingSpeed={80}
+                onComplete={() => setIntroComplete(true)}
+                keepCursorAfterComplete={false}
+              />
+            </h1>
 
-            <p className="text-xl">anyways, i <b>love</b> meeting new people.
-                so let&apos;s <a href="https://cal.com/tomzheng/chat" className="underline decoration-gray-300 hover:decoration-white transition-colors" aria-label="Schedule a chat with Tom">chat</a>.</p>
+            <p className="text-xl">
+              {introComplete && (
+                <TypeWriter 
+                  segments={paragraphSegments}
+                  pausePoints={paragraphPauses}
+                  typingSpeed={80}
+                  keepCursorAfterComplete={true}
+                  customEndIndicator={<SwayingArrow />}
+                />
+              )}
+            </p>
           </section>
           
           <section aria-labelledby="current-activities" className="mt-10 mb-8">
             <h2 id="current-activities" className="text-xl mb-2">my time:</h2>
             <ul className="list-disc pl-5 space-y-1">
               <li className="text-xl">co-founding <a href="https://linkd.inc" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-300 hover:decoration-white transition-colors">linkd</a> in sf</li>
-              <li className="text-xl">o1 visa</li>
+              <li className="text-xl">getting my o1 visa</li>
               <li className="text-xl">building <a href="https://www.sdx.community/chapters/ucsd" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-300 hover:decoration-white transition-colors">sdx</a> at ucsd</li>
             </ul>
           </section>
