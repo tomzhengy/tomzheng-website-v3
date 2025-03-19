@@ -16,7 +16,7 @@ const SwayingArrow: React.FC<SwayingArrowProps> = ({ className = '' }) => {
             transform: translateX(6px);
           }
         }
-        
+         
         .swaying-arrow-container {
           position: relative;
           display: inline-block;
