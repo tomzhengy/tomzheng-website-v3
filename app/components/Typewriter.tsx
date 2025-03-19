@@ -21,7 +21,6 @@ interface TypeWriterProps {
   onComplete?: () => void;
   keepCursorAfterComplete?: boolean;
   customEndIndicator?: ReactNode;
-  className?: string;
 }
 
 const TypeWriter = ({
@@ -32,7 +31,6 @@ const TypeWriter = ({
   onComplete,
   keepCursorAfterComplete = false,
   customEndIndicator = null,
-  className = "",
 }: TypeWriterProps) => {
   const [displayedTextIndex, setDisplayedTextIndex] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
@@ -88,17 +86,26 @@ const TypeWriter = ({
 
   // Set up cursor blink
   useEffect(() => {
-    // Create a blinking cursor effect - true blinking, not fading
-    cursorIntervalRef.current = setInterval(() => {
-      setShowCursor(prev => !prev);
-    }, 530); // Standard cursor blink rate
+    // Only blink the cursor when paused or complete
+    if (isPaused || isComplete) {
+      cursorIntervalRef.current = setInterval(() => {
+        setShowCursor(prev => !prev);
+      }, 530); // Standard cursor blink rate
+    } else {
+      // Keep cursor steady and visible during typing
+      setShowCursor(true);
+      if (cursorIntervalRef.current) {
+        clearInterval(cursorIntervalRef.current);
+        cursorIntervalRef.current = null;
+      }
+    }
 
     return () => {
       if (cursorIntervalRef.current) {
         clearInterval(cursorIntervalRef.current);
       }
     };
-  }, []);
+  }, [isPaused, isComplete]);
 
   // Determine whether to show the cursor, the custom indicator, or nothing
   const showCursorElement = !isComplete || (isComplete && keepCursorAfterComplete);
@@ -109,6 +116,7 @@ const TypeWriter = ({
     const renderedOutput: ReactNode[] = [];
     let globalIndex = 0;
     
+    // First render all segments
     segments!.forEach((segment, segmentIndex) => {
       const segmentLength = segment.text.length;
       const segmentStart = globalIndex;
@@ -149,17 +157,17 @@ const TypeWriter = ({
             </React.Fragment>
           );
         }
-        
-        // Only add the cursor to the current active segment
-        if (showCursor && showCursorElement) {
-          renderedOutput.push(
-            <span key="cursor" className="cursor">_</span>
-          );
-        }
       }
       
       globalIndex += segmentLength;
     });
+    
+    // Then add cursor separately at the end
+    if (showCursor && showCursorElement) {
+      renderedOutput.push(
+        <span key="cursor" className={`cursor ${(isPaused || isComplete) ? 'blinking' : ''}`}>_</span>
+      );
+    }
     
     // Add the custom end indicator if typing is complete
     if (showCustomIndicator) {
@@ -181,7 +189,7 @@ const TypeWriter = ({
       <>
         <span className="text-content">{displayedText}</span>
         {showCursor && showCursorElement && (
-          <span key="cursor" className="cursor">_</span>
+          <span key="cursor" className={`cursor ${(isPaused || isComplete) ? 'blinking' : ''}`}>_</span>
         )}
         {showCustomIndicator && (
           <React.Fragment key="custom-indicator">
@@ -193,7 +201,7 @@ const TypeWriter = ({
   };
 
   return (
-    <span className={`typewriter ${className}`}>
+    <span className="typewriter">
       <style jsx>{`
         @keyframes blink {
           0%, 49% { opacity: 1; }
@@ -205,8 +213,10 @@ const TypeWriter = ({
         }
         .typewriter .cursor {
           display: inline-block;
-          animation: blink 1.06s step-end infinite;
           margin-left: 2px;
+        }
+        .typewriter .cursor.blinking {
+          animation: blink 1.06s step-end infinite;
         }
       `}</style>
       {usingSegments ? renderSegments() : renderPlainText()}
