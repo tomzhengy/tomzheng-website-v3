@@ -77,7 +77,7 @@ export default function Home() {
   const allTextSegments = [
     // Intro segments
     { text: "hey! " },
-    { text: "i'm Tom—" },
+    { text: "i\u0027m Tom—" },
     { text: "co-founder of linkd and exploring sf." },
     // Paragraph segments
     { text: "anyways, i " },
@@ -85,7 +85,7 @@ export default function Home() {
       text: "love",
       render: (text: string): ReactNode => <b>{text}</b>
     },
-    { text: " meeting new people. so let&apos;s " },
+    { text: " meeting new people. so let\u0027s " },
     { 
       text: "chat",
       render: (text: string): ReactNode => (
@@ -111,7 +111,7 @@ export default function Home() {
   ];
   
   // Define full text strings for static version
-  const introFullText = "hey! i'm Tom—co-founder of linkd and exploring sf.";
+  const introFullText = "hey! i\u0027m Tom—co-founder of linkd and exploring sf.";
   const endText = "as always, more coming soon :)";
   
   // Consolidated pause points
@@ -154,7 +154,7 @@ export default function Home() {
           <p className="text-xl">
             {!shouldAnimate && (
               <>
-                anyways, i <b>love</b> meeting new people. so let&apos;s{' '}
+                anyways, i <b>love</b> meeting new people. so let\u0027s{' '}
                 <a 
                   href="https://cal.com/tomzheng/chat" 
                   className="underline decoration-gray-300 hover:decoration-white transition-colors cursor-pointer" 
