@@ -3,6 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Tom Zheng",
+  description: "hey, i'm Tom.",
   keywords: ["Tom Zheng", "linkd", "San Francisco", "founder", "engineer", "O1 visa", "SDX", "UCSD", "Y Combinator", "Y Combinator X25", "YC X25", "linkd inc", "linkd.inc", "Tom", "Tom Zheng"],
   authors: [{ name: "Tom Zheng" }],
   creator: "Tom Zheng",
@@ -13,6 +14,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://tomzheng.dev",
     title: "Tom Zheng",
+    description: "hey, i'm Tom.",
     siteName: "Tom Zheng",
     images: [{
       url: "/notion-face-portrait.png",
@@ -24,6 +26,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Tom Zheng",
+    description: "hey, i'm Tom.",
     images: ["/notion-face-portrait.png"]
   },
   icons: {

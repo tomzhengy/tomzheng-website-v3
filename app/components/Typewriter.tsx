@@ -115,18 +115,32 @@ const TypeWriter = ({
   const renderSegments = () => {
     const renderedOutput: ReactNode[] = [];
     let globalIndex = 0;
+    let lastVisibleSegmentIndex = -1;
     
-    // First render all segments
+    // First, determine the last visible segment for cursor placement
     segments!.forEach((segment, segmentIndex) => {
       const segmentLength = segment.text.length;
       const segmentStart = globalIndex;
-      const segmentEnd = segmentStart + segmentLength;
+      
+      if (displayedTextIndex > segmentStart) {
+        lastVisibleSegmentIndex = segmentIndex;
+      }
+      
+      globalIndex += segmentLength;
+    });
+    
+    // Reset for actual rendering
+    globalIndex = 0;
+    
+    segments!.forEach((segment, segmentIndex) => {
+      const segmentLength = segment.text.length;
+      const segmentStart = globalIndex;
       
       // Determine how much of this segment should be displayed
       if (displayedTextIndex <= segmentStart) {
         // This segment hasn't started being displayed yet
         renderedOutput.push(null);
-      } else if (displayedTextIndex >= segmentEnd) {
+      } else if (displayedTextIndex >= segmentStart + segmentLength) {
         // This segment is fully displayed
         if (segment.render) {
           renderedOutput.push(
@@ -159,15 +173,15 @@ const TypeWriter = ({
         }
       }
       
+      // Add cursor after the current segment if it's the last visible one
+      if (segmentIndex === lastVisibleSegmentIndex && showCursor && showCursorElement) {
+        renderedOutput.push(
+          <span key="cursor" className={`cursor ${(isPaused || isComplete) ? 'blinking' : ''}`}>_</span>
+        );
+      }
+      
       globalIndex += segmentLength;
     });
-    
-    // Then add cursor separately at the end
-    if (showCursor && showCursorElement) {
-      renderedOutput.push(
-        <span key="cursor" className={`cursor ${(isPaused || isComplete) ? 'blinking' : ''}`}>_</span>
-      );
-    }
     
     // Add the custom end indicator if typing is complete
     if (showCustomIndicator) {
