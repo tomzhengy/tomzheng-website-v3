@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 
 export type AnimationState = 'INITIAL' | 'TYPING' | 'CONTENT_FADING' | 'COMPLETE';
 
-const TEN_MINUTES_MS = 10 * 60 * 10;
+const TEN_MINUTES_MS = 5 * 60 * 1000;
 const STORAGE_KEY = 'lastAnimationTime';
 
 export const useAnimationManager = () => {
