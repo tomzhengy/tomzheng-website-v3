@@ -21,6 +21,9 @@ interface TypeWriterProps {
   onComplete?: () => void;
   keepCursorAfterComplete?: boolean;
   customEndIndicator?: ReactNode;
+  isSkipped?: boolean;
+  onSkip?: (currentIndex: number) => void;
+  startFromIndex?: number;
 }
 
 const TypeWriter = ({
@@ -31,13 +34,24 @@ const TypeWriter = ({
   onComplete,
   keepCursorAfterComplete = false,
   customEndIndicator = null,
+  isSkipped = false,
+  onSkip,
+  startFromIndex = 0,
 }: TypeWriterProps) => {
-  const [displayedTextIndex, setDisplayedTextIndex] = useState(0);
+  const [displayedTextIndex, setDisplayedTextIndex] = useState(startFromIndex);
   const [isComplete, setIsComplete] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [showCursor, setShowCursor] = useState(true);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const cursorIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Make the current text index available outside the component
+  useEffect(() => {
+    if (onSkip && !isComplete) {
+      // Expose the current position to the parent for skip handling
+      return () => onSkip(displayedTextIndex);
+    }
+  }, [onSkip, displayedTextIndex, isComplete]);
 
   // Determine if we're using segments or plain text
   const usingSegments = !!segments && segments.length > 0;
@@ -46,6 +60,24 @@ const TypeWriter = ({
   const totalLength = usingSegments
     ? segments!.reduce((acc, segment) => acc + segment.text.length, 0)
     : text?.length || 0;
+
+  // Effect to handle the skip animation
+  useEffect(() => {
+    if (isSkipped && !isComplete) {
+      // Clear any ongoing typing animation
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+      
+      // Set to complete immediately
+      setDisplayedTextIndex(totalLength);
+      setIsComplete(true);
+      
+      if (onComplete) {
+        onComplete();
+      }
+    }
+  }, [isSkipped, isComplete, totalLength, onComplete]);
 
   useEffect(() => {
     // Start the typing animation

@@ -1,10 +1,14 @@
 "use client"
 
-import Image from "next/image";
-import { Suspense, useState, ReactNode, useEffect } from "react";
+// import Image from "next/image"; /* Temporarily unused while image is hidden */
+import { Suspense, useState, ReactNode, useEffect, useRef } from "react";
 import Script from "next/script";
 import TypeWriter from "./components/Typewriter";
 import FadeIn from "./components/FadeIn";
+import dynamic from 'next/dynamic';
+
+// Dynamically import ThemeToggle with no SSR to avoid hydration issues
+const ThemeToggle = dynamic(() => import('./components/ThemeToggle'), { ssr: false });
 
 export default function Home() {
   const [emailCopied, setEmailCopied] = useState(false);
@@ -12,15 +16,115 @@ export default function Home() {
   const [paragraphComplete, setParagraphComplete] = useState(false);
   const [showContent, setShowContent] = useState(false);
   const [startTyping, setStartTyping] = useState(false);
+  const [isAnimationSkipped, setIsAnimationSkipped] = useState(false);
+  const [paragraphSkipped, setParagraphSkipped] = useState(false);
+  const [showSkipHint, setShowSkipHint] = useState(false);
+  const [skipHintFading, setSkipHintFading] = useState(false);
+  const [paragraphCurrentIndex, setParagraphCurrentIndex] = useState(0);
+  const [currentTime, setCurrentTime] = useState<string>('');
+  const mainRef = useRef<HTMLDivElement>(null);
   
   // Effect to create initial delay with just the cursor
   useEffect(() => {
     const timer = setTimeout(() => {
       setStartTyping(true);
+      // Show skip hint a bit after typing starts
+      setTimeout(() => setShowSkipHint(true), 1000);
     }, 2000); // 2 second delay
     
     return () => clearTimeout(timer);
   }, []);
+
+  // Effect to update the SF time every minute
+  useEffect(() => {
+    const updateSFTime = () => {
+      const options: Intl.DateTimeFormatOptions = { 
+        hour: 'numeric', 
+        minute: '2-digit', 
+        hour12: true,
+        timeZone: 'America/Los_Angeles'
+      };
+      const sfTime = new Date().toLocaleTimeString('en-US', options);
+      setCurrentTime(sfTime);
+    };
+    
+    // Initial update
+    updateSFTime();
+    
+    // Set interval to update every minute
+    const interval = setInterval(updateSFTime, 60000);
+    
+    return () => clearInterval(interval);
+  }, []);
+
+  // Effect for keyboard and button listeners
+  useEffect(() => {
+    const handleSkip = (e: Event) => {
+      if (!paragraphComplete && startTyping) {
+        if (e instanceof KeyboardEvent && e.code !== 'Space') {
+          return; // Only respond to space key
+        }
+        
+        e.preventDefault(); // Prevent default behavior
+        // Start fading out the skip hint
+        setSkipHintFading(true);
+        setTimeout(() => {
+          setShowSkipHint(false);
+          setSkipHintFading(false);
+        }, 500); // Match the duration of the fade-out animation
+        
+        if (!introComplete) {
+          // Skip the intro animation entirely
+          setIsAnimationSkipped(true);
+          setIntroComplete(true);
+        } else {
+          // Only skip the paragraph animation if intro is already complete
+          setParagraphSkipped(true);
+        }
+      }
+    };
+
+    // Keyboard listener
+    window.addEventListener('keydown', handleSkip as EventListener);
+    
+    // Skip button listener
+    const skipButton = document.getElementById('skip-button');
+    if (skipButton) {
+      skipButton.addEventListener('click', handleSkip);
+    }
+    
+    // Touch screen listener for mobile
+    const mainElement = mainRef.current;
+    if (mainElement) {
+      mainElement.addEventListener('touchstart', handleSkip);
+    }
+    
+    return () => {
+      window.removeEventListener('keydown', handleSkip as EventListener);
+      if (skipButton) {
+        skipButton.removeEventListener('click', handleSkip);
+      }
+      if (mainElement) {
+        mainElement.removeEventListener('touchstart', handleSkip);
+      }
+    };
+  }, [paragraphComplete, startTyping, introComplete]);
+
+  // Handler for saving the current paragraph index
+  const handleParagraphSkip = (currentIndex: number) => {
+    setParagraphCurrentIndex(currentIndex);
+  };
+
+  // Effect to handle paragraph skip
+  useEffect(() => {
+    if (paragraphSkipped) {
+      // Wait a brief moment to ensure the animation has time to update
+      const timer = setTimeout(() => {
+        setParagraphComplete(true);
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [paragraphSkipped]);
 
   // Effect to delay showing content until after animations
   useEffect(() => {
@@ -28,10 +132,26 @@ export default function Home() {
       // Add a slight delay for better effect
       const timer = setTimeout(() => {
         setShowContent(true);
-      }, 800);
+      }, isAnimationSkipped ? 100 : 800); // Shorter delay if skipped
       return () => clearTimeout(timer);
     }
-  }, [paragraphComplete]);
+  }, [paragraphComplete, isAnimationSkipped]);
+
+  // Effect to fade out the skip hint when typing completes
+  useEffect(() => {
+    if (paragraphComplete && showSkipHint) {
+      // Start fade-out animation
+      setSkipHintFading(true);
+      
+      // Remove element after animation completes
+      const fadeOutTimer = setTimeout(() => {
+        setShowSkipHint(false);
+        setSkipHintFading(false);
+      }, 500); // Match the duration of the fade-out animation
+      
+      return () => clearTimeout(fadeOutTimer);
+    }
+  }, [paragraphComplete, showSkipHint]);
 
   const copyEmailToClipboard = () => {
     navigator.clipboard.writeText("tom@linkd.inc");
@@ -40,11 +160,11 @@ export default function Home() {
   };
 
   // Define the intro text with pause points
-  const introText = "hey! i'm Tom—co-founder of Linkd and exploring sf.";
+  const introText = "hey! i'm Tom Zheng—co-founder of Linkd.";
   const introPauses = [
     { index: 5, duration: 700 }, // Pause after "hey!"
-    { index: 12, duration: 800 }, // Pause after "Tom"
-    { index: 49, duration: 700 }, // Pause after "SF."
+    { index: 18, duration: 800 }, // Pause after "Tom"
+    { index: 38, duration: 700 }, // Pause after "SF."
   ];
 
   // Define the ending text
@@ -125,8 +245,35 @@ export default function Home() {
         }}
       />
       
-      <main className="flex min-h-screen justify-center">
+      {/* Theme toggle positioned at the top right of the content */}
+      <div className="absolute top-8 right-4 sm:right-auto sm:left-[calc(50%+250px-12px)] md:left-[calc(50%+250px-16px)] z-50">
+        <ThemeToggle />
+      </div>
+      
+      {/* SF Time display positioned at the top left */}
+      <div className="absolute top-8 left-4 sm:left-auto sm:right-[calc(50%+250px-12px)] md:right-[calc(50%+250px-16px)] z-50 text-gray-400 text-xs">
+        based in sf - {currentTime}
+      </div>
+      
+      <main ref={mainRef} className="flex min-h-screen justify-center">
         <div className="text-left max-w-[500px] w-full px-4 pt-[10vh] sm:pt-[15vh] md:pt-[10vh]">
+          {/* Skip hint with button for mobile - centered on screen */}
+          {showSkipHint && (
+            <div 
+              className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 ${skipHintFading ? 'animate-fade-out' : 'animate-fade-in'}`}
+              style={{ opacity: skipHintFading ? 1 : 0 }} // Initial state for animation
+            >
+              <button 
+                id="skip-button"
+                className="bg-transparent text-gray-500 text-xs hover:text-gray-300 transition-colors py-1 px-2 rounded"
+                aria-label="Skip typewriter animation"
+              >
+                <em className="sm:hidden">tap to skip</em>
+                <em className="hidden sm:inline">press space to skip</em>
+              </button>
+            </div>
+          )}
+          
           <section aria-labelledby="introduction">
             <h1 id="introduction" className="text-xl">
               {startTyping ? (
@@ -136,20 +283,24 @@ export default function Home() {
                   typingSpeed={80}
                   onComplete={() => setIntroComplete(true)}
                   keepCursorAfterComplete={false}
+                  isSkipped={isAnimationSkipped}
                 />
               ) : (
                 <span className="cursor-blink">_</span>
               )}
             </h1>
 
-            <p className="text-xl">
-              {introComplete && (
+            <p className={`text-xl ${isAnimationSkipped || paragraphSkipped ? 'animate-fade-in' : ''}`}>
+              {(introComplete || isAnimationSkipped) && (
                 <TypeWriter 
                   segments={paragraphSegments}
                   pausePoints={paragraphPauses}
                   typingSpeed={80}
                   keepCursorAfterComplete={true}
                   onComplete={() => setParagraphComplete(true)}
+                  isSkipped={paragraphSkipped}
+                  onSkip={handleParagraphSkip}
+                  startFromIndex={paragraphCurrentIndex}
                 />
               )}
             </p>
@@ -157,14 +308,14 @@ export default function Home() {
           
           {/* Line-by-line fade in sections after typewriter completes */}
           {showContent && (
-            <>
+            <div className={isAnimationSkipped ? 'animate-fade-in' : ''}>
               <section aria-labelledby="current-activities" className="mt-10 mb-8">
                 <FadeIn delay={baseDelay}>
                   <h2 id="current-activities" className="text-xl mb-2">my time:</h2>
                 </FadeIn>
                 <ul className="list-disc pl-5 space-y-1">
                   <FadeIn delay={baseDelay + delayIncrement * 1}>
-                    <li className="text-xl">connecting people @ <a href="https://linkd.inc" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-300 hover:decoration-white transition-colors">Linkd</a> in sf</li>
+                    <li className="text-xl">connecting people @ <a href="https://linkd.inc" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-300 hover:decoration-white transition-colors">Linkd</a> & doing yc spring.</li>
                   </FadeIn>
                   <FadeIn delay={baseDelay + delayIncrement * 2}>
                     <li className="text-xl">getting my o1 visa</li>
@@ -227,6 +378,7 @@ export default function Home() {
                 </FadeIn>
               </div>
               
+              {/* Image section temporarily hidden
               <FadeIn delay={baseDelay + delayIncrement * 10}>
                 <figure className="relative w-[105%] md:w-[112%] aspect-[3/2] mt-10 vignette-container -ml-[2.5%] md:-ml-[6%]">
                   <Suspense fallback={<div className="w-full aspect-[3/2] bg-gray-800 rounded-md animate-pulse"></div>}>
@@ -245,7 +397,8 @@ export default function Home() {
                   <figcaption className="sr-only">A serene forest landscape</figcaption>
                 </figure>
               </FadeIn>
-            </>
+              */}
+            </div>
           )}
         </div>
       </main>

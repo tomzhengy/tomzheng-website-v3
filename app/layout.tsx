@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { ThemeProvider } from "./components/ThemeProvider";
 
 export const metadata: Metadata = {
   title: "Tom Zheng",
@@ -48,12 +49,39 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        {/* Inline Theme Script - Will run immediately, before page renders */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                // Theme detection and application script
+                try {
+                  // Check localStorage first
+                  const savedTheme = localStorage.getItem('theme');
+                  if (savedTheme === 'light' || savedTheme === 'dark') {
+                    document.documentElement.classList.add(savedTheme);
+                    return;
+                  }
+                  
+                  // Then check system preference
+                  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  document.documentElement.classList.add(prefersDark ? 'dark' : 'light');
+                } catch (e) {
+                  // Fallback to default theme if detection fails
+                  document.documentElement.classList.add('dark');
+                }
+              })();
+            `
+          }}
+        />
       </head>
       <body>
-        {children}
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
