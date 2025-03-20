@@ -300,7 +300,7 @@ export default function Home() {
                 aria-label="Skip typewriter animation"
               >
                 <em className="sm:hidden">tap to skip</em>
-                <em className="hidden sm:inline">press space to skip</em>
+                <em className="hidden sm:inline">space to skip</em>
               </button>
             </div>
           )}
