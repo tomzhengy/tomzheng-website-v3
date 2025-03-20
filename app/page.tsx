@@ -19,7 +19,13 @@ export default function Home() {
   const [showSkipHint, setShowSkipHint] = useState(false);
   const [skipHintFading, setSkipHintFading] = useState(false);
   const [currentTime, setCurrentTime] = useState<string>('');
+  const [showHeaderElements, setShowHeaderElements] = useState(false);
   const mainRef = useRef<HTMLDivElement>(null);
+  
+  // Base delay for fade-in animations (starts after typewriter completes)
+  const baseDelay = 0;
+  // Increment between items
+  const delayIncrement = 300;
   
   // Effect to create initial delay with just the cursor
   useEffect(() => {
@@ -31,6 +37,24 @@ export default function Home() {
     
     return () => clearTimeout(timer);
   }, []);
+
+  // Effect to show header elements after all content animations complete
+  useEffect(() => {
+    if (showContent) {
+      // Calculate when the last fade-in animation would finish
+      // The last animation is at baseDelay + delayIncrement * 9
+      // Add animation duration (~700ms) to ensure it's complete
+      const lastFadeInDelay = baseDelay + delayIncrement * 9;
+      const animationDuration = 700;
+      const totalDelay = lastFadeInDelay + animationDuration;
+      
+      const timer = setTimeout(() => {
+        setShowHeaderElements(true);
+      }, totalDelay);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [showContent, baseDelay, delayIncrement]);
 
   // Effect to update the SF time every minute
   useEffect(() => {
@@ -142,7 +166,7 @@ export default function Home() {
 
   // Define the intro text and paragraph segments as a single array
   const allSegments = [
-    { text: "hey! i'm Tom Zheng—co-founder of Linkd." },
+    { text: "hey! i'm Tom Zheng—co-founder of Linkd, based in sf." },
     { text: " " },
     { 
       text: " ",
@@ -184,20 +208,15 @@ export default function Home() {
   const allPausePoints = [
     { index: 5, duration: 600 }, // Pause after "hey!"
     { index: 18, duration: 600 }, // Pause after "Tom"
-    { index: 39, duration: 600 }, // Pause after "Linkd.
-    { index: 49, duration: 400 }, // Pause after "anyways,"
-    { index: 75, duration: 600 }, // Longer pause after "."
-    { index: 90, duration: 800 }, // Pause after "chat"
-    { index: 91, duration: 700 }, // Pause after "."
-    { index: 93, duration: 700 }, // Long pause after the br
-    { index: 103, duration: 500 }, // Pause after "always,"
-    { index: 93 + endText.length, duration: 300 }, // Pause at the end
+    { index: 52, duration: 600 }, // Pause after "Linkd based in sf."
+    { index: 62, duration: 400 }, // Pause after "anyways,"
+    { index: 88, duration: 600 }, // Longer pause after "."
+    { index: 103, duration: 800 }, // Pause after "chat"
+    { index: 104, duration: 700 }, // Pause after "."
+    { index: 106, duration: 700 }, // Long pause after the br
+    { index: 116, duration: 500 }, // Pause after "always,"
+    { index: 106 + endText.length, duration: 300 }, // Pause at the end
   ];
-
-  // Base delay for fade-in animations (starts after typewriter completes)
-  const baseDelay = 0;
-  // Increment between items
-  const delayIncrement = 300;
 
   return (
     <>
@@ -228,7 +247,7 @@ export default function Home() {
         <div className="text-left max-w-[500px] w-full px-4 pt-[8vh] sm:pt-[8vh] md:pt-[8vh]">
           {/* Theme toggle and SF time in the same line within text margins */}
           <div className="flex justify-between items-center mb-8 h-8 relative">
-            <div className="text-xl opacity-70 hover:opacity-100 transition-opacity min-w-[120px]">
+            <div className={`text-xl opacity-0 min-w-[120px] transition-all duration-700 ${showHeaderElements ? 'opacity-70 hover:opacity-100 translate-x-0' : 'translate-x-8'}`}>
               {currentTime}
             </div>
             <div className="flex justify-center absolute left-1/2 transform -translate-x-1/2 w-12 h-12">
@@ -240,10 +259,12 @@ export default function Home() {
                 height={24}
               />
             </div>
-            <div className="w-full max-w-[22%] h-px bg-current opacity-20 absolute left-[21%] top-1/2 transform -translate-y-1/2"></div>
-            <div className="w-full max-w-[32%] h-px bg-current opacity-20 absolute left-[57%] top-1/2 transform -translate-y-1/2"></div>
-            <div className="opacity-70 hover:opacity-100 transition-opacity min-w-[24px] min-h-[24px] flex justify-end">
-              <ThemeToggle />
+            <div className={`w-full max-w-[22%] h-px bg-current opacity-0 absolute left-[21%] top-1/2 transform -translate-y-1/2 transition-all duration-700 ${showHeaderElements ? 'opacity-20' : 'scale-x-0'}`}></div>
+            <div className={`w-full max-w-[32.25%] h-px bg-current opacity-0 absolute left-[57%] top-1/2 transform -translate-y-1/2 transition-all duration-700 ${showHeaderElements ? 'opacity-20' : 'scale-x-0'}`}></div>
+            <div className={`opacity-0 min-w-[24px] min-h-[24px] flex justify-end transition-all duration-700 ${showHeaderElements ? 'opacity-70 hover:opacity-100 translate-x-0' : '-translate-x-8'}`}>
+              <div className="transform transition-transform duration-300 hover:rotate-24">
+                <ThemeToggle />
+              </div>
             </div>
           </div>
           
