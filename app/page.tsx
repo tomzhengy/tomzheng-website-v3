@@ -261,8 +261,8 @@ export default function Home() {
             </div>
             <div className={`w-full max-w-[22%] h-px bg-current opacity-0 absolute left-[21%] top-1/2 transform -translate-y-1/2 transition-all duration-700 ${showHeaderElements ? 'opacity-20' : 'scale-x-0'}`}></div>
             <div className={`w-full max-w-[32.25%] h-px bg-current opacity-0 absolute left-[57%] top-1/2 transform -translate-y-1/2 transition-all duration-700 ${showHeaderElements ? 'opacity-20' : 'scale-x-0'}`}></div>
-            <div className={`opacity-0 min-w-[24px] min-h-[24px] flex justify-end transition-all duration-700 ${showHeaderElements ? 'opacity-70 hover:opacity-100 translate-x-0' : '-translate-x-8'}`}>
-              <div className="transform transition-transform duration-300 hover:rotate-24">
+            <div className={`opacity-0 min-w-[24px] min-h-[24px] flex justify-end transition-all duration-700 ${showHeaderElements ? 'opacity-70 hover:opacity-100 translate-x-0' : '-translate-x-8'} sm:mt-0 mt-1`}>
+              <div className="transform transition-transform duration-300 hover:rotate-12">
                 <ThemeToggle />
               </div>
             </div>
