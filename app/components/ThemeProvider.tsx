@@ -16,7 +16,7 @@ function getThemeFromStorage(): Theme | null {
   if (typeof window === "undefined") return null;
   try {
     return localStorage.getItem("theme") as Theme | null;
-  } catch (e) {
+  } catch (_) {
     return null;
   }
 }
@@ -26,13 +26,13 @@ function getSystemTheme(): Theme {
   if (typeof window === "undefined") return "dark";
   try {
     return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-  } catch (e) {
+  } catch (_) {
     return "dark";
   }
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  // Default to dark theme
+  // Default to system theme when possible
   const [theme, setTheme] = useState<Theme>("dark");
   // Add state to track if user has manually set theme
   const [isManuallySet, setIsManuallySet] = useState<boolean>(false);
@@ -50,6 +50,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       setTheme(savedTheme);
       setIsManuallySet(true);
     } else {
+      // Use system preference as default
       setTheme(getSystemTheme());
       setIsManuallySet(false);
     }
@@ -81,8 +82,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
           mediaQuery.removeListener(handleChange);
         }
       };
-    } catch (e) {
-      console.error("Error setting up theme listeners:", e);
+    } catch (error) {
+      console.error("Error setting up theme listeners:", error);
     }
   }, [isManuallySet]);
 
@@ -100,8 +101,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       if (isManuallySet) {
         localStorage.setItem("theme", theme);
       }
-    } catch (e) {
-      console.error("Error updating theme:", e);
+    } catch (error) {
+      console.error("Error updating theme:", error);
     }
   }, [theme, mounted, isManuallySet]);
 
