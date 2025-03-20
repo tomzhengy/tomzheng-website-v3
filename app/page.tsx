@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { Suspense, useState, ReactNode, useEffect } from "react";
 import Script from "next/script";
-import TypeWriter from "./components/TypeWriter";
+import TypeWriter from "./components/Typewriter";
 import FadeIn from "./components/FadeIn";
 
 export default function Home() {
