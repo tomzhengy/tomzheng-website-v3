@@ -240,8 +240,8 @@ export default function Home() {
                 height={24}
               />
             </div>
-            <div className="w-full max-w-[25%] h-px bg-current opacity-20 absolute left-[18%] top-1/2 transform -translate-y-1/2"></div>
-            <div className="w-full max-w-[36%] h-px bg-current opacity-20 absolute left-[57%] top-1/2 transform -translate-y-1/2"></div>
+            <div className="w-full max-w-[22%] h-px bg-current opacity-20 absolute left-[21%] top-1/2 transform -translate-y-1/2"></div>
+            <div className="w-full max-w-[32%] h-px bg-current opacity-20 absolute left-[57%] top-1/2 transform -translate-y-1/2"></div>
             <div className="opacity-70 hover:opacity-100 transition-opacity min-w-[24px] min-h-[24px] flex justify-end">
               <ThemeToggle />
             </div>
