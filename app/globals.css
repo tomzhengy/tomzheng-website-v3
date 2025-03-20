@@ -1,14 +1,51 @@
 @import "tailwindcss";
 
+/* Default styles (dark mode) */
 :root {
+  /* Dark mode colors (default) */
   --background: #242222;
   --foreground: #F7F7EF;
+  --link-underline: #888888;
+  --link-hover: #FFFFFF;
+  
+  /* Transition settings for theme switching */
+  --transition-duration: 0.3s;
+  --transition-timing: ease;
 }
 
+/* Light mode overrides when .light class is present */
+.light {
+  /* Light mode colors */
+  --background: #F7F7EF;
+  --foreground: #242222;
+  --link-underline: #AAAAAA;
+  --link-hover: #000000;
+}
+
+/* Base styles with transitions */
 html, body {
   background: var(--background);
   color: var(--foreground);
   font-family: serif;
+  transition: background-color var(--transition-duration) var(--transition-timing),
+              color var(--transition-duration) var(--transition-timing);
+}
+
+/* Add transitions to interactive elements */
+a, svg, button, .underline {
+  transition: color var(--transition-duration) var(--transition-timing),
+              opacity var(--transition-duration) var(--transition-timing),
+              text-decoration-color var(--transition-duration) var(--transition-timing),
+              background-color var(--transition-duration) var(--transition-timing);
+}
+
+/* Override Tailwind classes for themes */
+.decoration-gray-300 {
+  text-decoration-color: var(--link-underline) !important;
+}
+
+.hover\:decoration-white:hover {
+  text-decoration-color: var(--link-hover) !important;
 }
 
 /* Vignette effect */
@@ -23,10 +60,11 @@ html, body {
   left: 0;
   width: 100%;
   height: 100%;
-  box-shadow: inset 0 0 35px 35px rgba(36,34,34,1);
+  box-shadow: inset 0 0 35px 35px var(--background);
   border-radius: 0.375rem; /* matches rounded-md */
   pointer-events: none;
   z-index: 10;
+  transition: box-shadow var(--transition-duration) var(--transition-timing);
 }
 
 /* Blinking cursor animation */

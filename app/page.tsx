@@ -12,15 +12,12 @@ const ThemeToggle = dynamic(() => import('./components/ThemeToggle'), { ssr: fal
 
 export default function Home() {
   const [emailCopied, setEmailCopied] = useState(false);
-  const [introComplete, setIntroComplete] = useState(false);
   const [paragraphComplete, setParagraphComplete] = useState(false);
   const [showContent, setShowContent] = useState(false);
   const [startTyping, setStartTyping] = useState(false);
   const [isAnimationSkipped, setIsAnimationSkipped] = useState(false);
-  const [paragraphSkipped, setParagraphSkipped] = useState(false);
   const [showSkipHint, setShowSkipHint] = useState(false);
   const [skipHintFading, setSkipHintFading] = useState(false);
-  const [paragraphCurrentIndex, setParagraphCurrentIndex] = useState(0);
   const [currentTime, setCurrentTime] = useState<string>('');
   const mainRef = useRef<HTMLDivElement>(null);
   
@@ -40,8 +37,9 @@ export default function Home() {
     const updateSFTime = () => {
       const options: Intl.DateTimeFormatOptions = { 
         hour: 'numeric', 
-        minute: '2-digit', 
-        hour12: true,
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false,
         timeZone: 'America/Los_Angeles'
       };
       const sfTime = new Date().toLocaleTimeString('en-US', options);
@@ -51,8 +49,8 @@ export default function Home() {
     // Initial update
     updateSFTime();
     
-    // Set interval to update every minute
-    const interval = setInterval(updateSFTime, 60000);
+    // Set interval to update every second
+    const interval = setInterval(updateSFTime, 1);
     
     return () => clearInterval(interval);
   }, []);
@@ -73,13 +71,9 @@ export default function Home() {
           setSkipHintFading(false);
         }, 500); // Match the duration of the fade-out animation
         
-        if (!introComplete) {
-          // Skip the intro animation entirely
+        if (!isAnimationSkipped) {
+          // Skip the paragraph animation
           setIsAnimationSkipped(true);
-          setIntroComplete(true);
-        } else {
-          // Only skip the paragraph animation if intro is already complete
-          setParagraphSkipped(true);
         }
       }
     };
@@ -108,23 +102,7 @@ export default function Home() {
         mainElement.removeEventListener('touchstart', handleSkip);
       }
     };
-  }, [paragraphComplete, startTyping, introComplete]);
-
-  // Handler for saving the current paragraph index
-  const handleParagraphSkip = (currentIndex: number) => {
-    setParagraphCurrentIndex(currentIndex);
-  };
-
-  // Effect to handle paragraph skip
-  useEffect(() => {
-    if (paragraphSkipped) {
-      // Wait a brief moment to ensure the animation has time to update
-      const timer = setTimeout(() => {
-        setParagraphComplete(true);
-      }, 50);
-      return () => clearTimeout(timer);
-    }
-  }, [paragraphSkipped]);
+  }, [paragraphComplete, startTyping, isAnimationSkipped]);
 
   // Effect to delay showing content until after animations
   useEffect(() => {
@@ -159,19 +137,17 @@ export default function Home() {
     setTimeout(() => setEmailCopied(false), 2000);
   };
 
-  // Define the intro text with pause points
-  const introText = "hey! i'm Tom Zheng—co-founder of Linkd.";
-  const introPauses = [
-    { index: 5, duration: 700 }, // Pause after "hey!"
-    { index: 18, duration: 800 }, // Pause after "Tom"
-    { index: 38, duration: 700 }, // Pause after "SF."
-  ];
-
-  // Define the ending text
+  // Define ending text
   const endText = "as always, more coming soon :)";
-  
-  // Define the paragraph segments with custom rendering for "love" and "chat"
-  const paragraphSegments = [
+
+  // Define the intro text and paragraph segments as a single array
+  const allSegments = [
+    { text: "hey! i'm Tom Zheng—co-founder of Linkd." },
+    { text: " " },
+    { 
+      text: " ",
+      render: (): ReactNode => <br />
+    },
     { text: "anyways, i " },
     { 
       text: "love",
@@ -204,15 +180,18 @@ export default function Home() {
     { text: endText }
   ];
   
-  // Define the paragraph pause points based on global character indices
-  const paragraphPauses = [
-    { index: 9, duration: 500 }, // Pause after "anyways,"
-    { index: 35, duration: 700 }, // Longer pause after "."
-    { index: 50, duration: 900 }, // Pause after "chat"
-    { index: 51, duration: 800 }, // Pause after "."
-    { index: 52, duration: 1000 }, // Long pause after the br
-    { index: 62, duration: 500 }, // Pause after "always,"
-    { index: endText.length + 52, duration: 300 }, // Pause at the end
+  // Combine and adjust pause points for the entire content
+  const allPausePoints = [
+    { index: 5, duration: 600 }, // Pause after "hey!"
+    { index: 18, duration: 600 }, // Pause after "Tom"
+    { index: 39, duration: 600 }, // Pause after "Linkd.
+    { index: 49, duration: 400 }, // Pause after "anyways,"
+    { index: 75, duration: 600 }, // Longer pause after "."
+    { index: 90, duration: 800 }, // Pause after "chat"
+    { index: 91, duration: 700 }, // Pause after "."
+    { index: 93, duration: 700 }, // Long pause after the br
+    { index: 103, duration: 500 }, // Pause after "always,"
+    { index: 93 + endText.length, duration: 300 }, // Pause at the end
   ];
 
   // Base delay for fade-in animations (starts after typewriter completes)
@@ -245,18 +224,29 @@ export default function Home() {
         }}
       />
       
-      {/* Theme toggle positioned at the top right of the content */}
-      <div className="absolute top-8 right-4 sm:right-auto sm:left-[calc(50%+250px-12px)] md:left-[calc(50%+250px-16px)] z-50">
-        <ThemeToggle />
-      </div>
-      
-      {/* SF Time display positioned at the top left */}
-      <div className="absolute top-8 left-4 sm:left-auto sm:right-[calc(50%+250px-12px)] md:right-[calc(50%+250px-16px)] z-50 text-gray-400 text-xs">
-        based in sf - {currentTime}
-      </div>
-      
       <main ref={mainRef} className="flex min-h-screen justify-center">
         <div className="text-left max-w-[500px] w-full px-4 pt-[10vh] sm:pt-[15vh] md:pt-[10vh]">
+          {/* Theme toggle and SF time in the same line within text margins */}
+          <div className="flex justify-between items-center mb-8 h-8 relative">
+            <div className="text-xl opacity-70 hover:opacity-100 transition-opacity min-w-[120px]">
+              {currentTime}
+            </div>
+            <div className="flex justify-center absolute left-1/2 transform -translate-x-1/2 w-12 h-12">
+              <img 
+                src="/notion-face-transparent.webp"
+                alt="Tom Zheng"
+                className="w-12 h-12 opacity-90 hover:opacity-100 transition-opacity"
+                width={24}
+                height={24}
+              />
+            </div>
+            <div className="w-1/4 mx-22 h-px bg-current opacity-20 absolute"></div>
+            <div className="w-41/120 mx-66 h-px bg-current opacity-20 absolute"></div>
+            <div className="opacity-70 hover:opacity-100 transition-opacity min-w-[24px] min-h-[24px] flex justify-end">
+              <ThemeToggle />
+            </div>
+          </div>
+          
           {/* Skip hint with button for mobile - centered on screen */}
           {showSkipHint && (
             <div 
@@ -275,35 +265,20 @@ export default function Home() {
           )}
           
           <section aria-labelledby="introduction">
-            <h1 id="introduction" className="text-xl">
+            <div className="text-xl">
               {startTyping ? (
                 <TypeWriter 
-                  text={introText} 
-                  pausePoints={introPauses} 
+                  segments={allSegments}
+                  pausePoints={allPausePoints}
                   typingSpeed={80}
-                  onComplete={() => setIntroComplete(true)}
-                  keepCursorAfterComplete={false}
+                  onComplete={() => setParagraphComplete(true)}
+                  keepCursorAfterComplete={true}
                   isSkipped={isAnimationSkipped}
                 />
               ) : (
                 <span className="cursor-blink">_</span>
               )}
-            </h1>
-
-            <p className={`text-xl ${isAnimationSkipped || paragraphSkipped ? 'animate-fade-in' : ''}`}>
-              {(introComplete || isAnimationSkipped) && (
-                <TypeWriter 
-                  segments={paragraphSegments}
-                  pausePoints={paragraphPauses}
-                  typingSpeed={80}
-                  keepCursorAfterComplete={true}
-                  onComplete={() => setParagraphComplete(true)}
-                  isSkipped={paragraphSkipped}
-                  onSkip={handleParagraphSkip}
-                  startFromIndex={paragraphCurrentIndex}
-                />
-              )}
-            </p>
+            </div>
           </section>
           
           {/* Line-by-line fade in sections after typewriter completes */}
