@@ -232,7 +232,6 @@ export default function Home() {
     { index: 52, duration: 600 }, // Pause after "Linkd based in sf."
     { index: 62, duration: 400 }, // Pause after "anyways,"
     { index: 88, duration: 600 }, // Longer pause after "."
-    { index: 103, duration: 800 }, // Pause after "chat"
     { index: 104, duration: 700 }, // Pause after "."
     { index: 106, duration: 700 }, // Long pause after the br
     { index: 116, duration: 500 }, // Pause after "always,"
