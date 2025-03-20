@@ -270,11 +270,11 @@ export default function Home() {
             <div className={`text-xl opacity-0 min-w-[120px] transition-all duration-700 ${showHeaderElements ? 'opacity-70 hover:opacity-100 translate-x-0' : 'translate-x-8'}`}>
               {currentTime}
             </div>
-            <div className="flex justify-center absolute left-1/2 transform -translate-x-1/2 w-12 h-12">
+            <div className="flex justify-center absolute left-1/2 transform -translate-x-1/2 w-16 h-16">
               <img 
                 src="/notion-face-transparent.webp"
                 alt="Tom Zheng"
-                className="w-12 h-12 opacity-90 hover:opacity-100 transition-opacity"
+                className="w-16 h-16 opacity-85 hover:opacity-100 transition-opacity"
                 width={24}
                 height={24}
               />
