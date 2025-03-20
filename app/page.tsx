@@ -20,6 +20,7 @@ export default function Home() {
   const [skipHintFading, setSkipHintFading] = useState(false);
   const [currentTime, setCurrentTime] = useState<string>('');
   const [showHeaderElements, setShowHeaderElements] = useState(false);
+  const hasSkippedRef = useRef(false);
   const mainRef = useRef<HTMLDivElement>(null);
   
   // Base delay for fade-in animations (starts after typewriter completes)
@@ -31,12 +32,21 @@ export default function Home() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setStartTyping(true);
-      // Show skip hint a bit after typing starts
-      setTimeout(() => setShowSkipHint(true), 1000);
+      
+      // Show skip hint bit after typing starts, but only if not already skipped
+      if (!hasSkippedRef.current && !isAnimationSkipped && !paragraphComplete) {
+        const hintTimer = setTimeout(() => {
+          // Double check that no skip has occurred before showing hint
+          if (!hasSkippedRef.current) {
+            setShowSkipHint(true);
+          }
+        }, 1000);
+        return () => clearTimeout(hintTimer);
+      }
     }, 2000); // 2 second delay
     
     return () => clearTimeout(timer);
-  }, []);
+  }, [isAnimationSkipped, paragraphComplete]);
 
   // Effect to show header elements after all content animations complete
   useEffect(() => {
@@ -88,12 +98,18 @@ export default function Home() {
         }
         
         e.preventDefault(); // Prevent default behavior
-        // Start fading out the skip hint
-        setSkipHintFading(true);
-        setTimeout(() => {
-          setShowSkipHint(false);
-          setSkipHintFading(false);
-        }, 500); // Match the duration of the fade-out animation
+        
+        // Immediately mark as skipped to prevent hint from showing
+        hasSkippedRef.current = true;
+        
+        // Hide skip hint if it's showing
+        if (showSkipHint) {
+          setSkipHintFading(true);
+          setTimeout(() => {
+            setShowSkipHint(false);
+            setSkipHintFading(false);
+          }, 500); // Match the duration of the fade-out animation
+        }
         
         if (!isAnimationSkipped) {
           // Skip the paragraph animation
@@ -261,7 +277,7 @@ export default function Home() {
             </div>
             <div className={`w-full max-w-[20%] sm:max-w-[26%] max-w-[18%] h-px bg-current opacity-0 absolute sm:left-[18%] left-[22%] top-1/2 transform -translate-y-1/2 transition-all duration-700 ${showHeaderElements ? 'opacity-20' : 'scale-x-0'}`}></div>
             <div className={`w-full max-w-[32.25%] sm:max-w-[37%] max-w-[28%] h-px bg-current opacity-0 absolute sm:left-[56%] left-[58%] top-1/2 transform -translate-y-1/2 transition-all duration-700 ${showHeaderElements ? 'opacity-20' : 'scale-x-0'}`}></div>
-            <div className={`opacity-0 min-w-[24px] min-h-[24px] flex justify-end transition-all duration-700 ${showHeaderElements ? 'opacity-70 hover:opacity-100 translate-x-0' : '-translate-x-8'} sm:mt-0 mt-1`}>
+            <div className={`opacity-0 min-w-[24px] min-h-[24px] flex justify-end transition-all duration-700 ${showHeaderElements ? 'opacity-70 hover:opacity-100 translate-x-0' : '-translate-x-8'} sm:mt-2 mt-1`}>
               <div className="transform transition-transform duration-300 hover:rotate-12">
                 <ThemeToggle />
               </div>
@@ -311,13 +327,13 @@ export default function Home() {
                 </FadeIn>
                 <ul className="list-disc pl-5 space-y-1">
                   <FadeIn delay={baseDelay + delayIncrement * 1}>
-                    <li className="text-xl">connecting people @ <a href="https://linkd.inc" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-300 hover:decoration-white transition-colors">Linkd</a> & doing yc spring.</li>
+                    <li className="text-xl">connecting people @ <a href="https://linkd.inc" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-300 hover:decoration-white transition-colors">Linkd</a> with yc x25.</li>
                   </FadeIn>
                   <FadeIn delay={baseDelay + delayIncrement * 2}>
-                    <li className="text-xl">getting my o1 visa</li>
+                    <li className="text-xl">getting my o1 visa.</li>
                   </FadeIn>
                   <FadeIn delay={baseDelay + delayIncrement * 3}>
-                    <li className="text-xl">building <a href="https://www.sdx.community/chapters/ucsd" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-300 hover:decoration-white transition-colors">sdx</a> at ucsd</li>
+                    <li className="text-xl">building <a href="https://www.sdx.community/chapters/ucsd" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-300 hover:decoration-white transition-colors">sdx</a> at ucsd.</li>
                   </FadeIn>
                 </ul>
               </section>
