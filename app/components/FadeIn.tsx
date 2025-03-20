@@ -21,7 +21,7 @@ const FadeIn = ({ children, delay, className = '' }: FadeInProps) => {
   
   return (
     <div 
-      className={`transition-opacity duration-700 ${isVisible ? 'opacity-100' : 'opacity-0'} ${className}`}
+      className={`transition-opacity duration-400 ${isVisible ? 'opacity-100' : 'opacity-0'} ${className}`}
     >
       {children}
     </div>

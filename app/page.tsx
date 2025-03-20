@@ -227,14 +227,15 @@ export default function Home() {
   
   // Combine and adjust pause points for the entire content
   const allPausePoints = [
-    { index: 5, duration: 600 }, // Pause after "hey!"
-    { index: 18, duration: 600 }, // Pause after "Tom"
-    { index: 52, duration: 600 }, // Pause after "Linkd based in sf."
-    { index: 62, duration: 400 }, // Pause after "anyways,"
-    { index: 88, duration: 600 }, // Longer pause after "."
-    { index: 104, duration: 700 }, // Pause after "."
-    { index: 106, duration: 700 }, // Long pause after the br
-    { index: 116, duration: 500 }, // Pause after "always,"
+    { index: 5, duration: 700 }, // Pause after "hey!"
+    { index: 18, duration: 700 }, // Pause after "Tom"
+    { index: 52, duration: 700 }, // Pause after "Linkd based in sf."
+    { index: 62, duration: 500 }, // Pause after "anyways,"
+    { index: 89, duration: 700 }, // Longer pause after "."
+    { index: 104, duration: 800 }, // Pause after "."
+    { index: 105, duration: 400 }, // Long pause at the br
+    { index: 106, duration: 600 }, // Long pause after the br
+    { index: 116, duration: 600 }, // Pause after "always,"
     { index: 106 + endText.length, duration: 300 }, // Pause at the end
   ];
 
@@ -283,7 +284,9 @@ export default function Home() {
             <div className={`w-full max-w-[32.25%] sm:max-w-[35.5%] max-w-[28%] h-px bg-current opacity-0 absolute sm:left-[56%] left-[58%] top-1/2 transform -translate-y-1/2 transition-all duration-700 ${showHeaderElements ? 'opacity-20' : 'scale-x-0'}`}></div>
             <div className={`opacity-0 min-w-[24px] min-h-[24px] flex justify-end transition-all duration-700 ${showHeaderElements ? 'opacity-70 hover:opacity-100 translate-x-0' : '-translate-x-8'} sm:mt-2 mt-2`}>
               <div className="transform transition-transform duration-300 hover:rotate-12">
-                <ThemeToggle />
+                <div className="transition-colors duration-300">
+                  <ThemeToggle />
+                </div>
               </div>
             </div>
           </div>
@@ -311,7 +314,7 @@ export default function Home() {
                 <TypeWriter 
                   segments={allSegments}
                   pausePoints={allPausePoints}
-                  typingSpeed={80}
+                  typingSpeed={60}
                   onComplete={() => setParagraphComplete(true)}
                   keepCursorAfterComplete={true}
                   isSkipped={isAnimationSkipped}
