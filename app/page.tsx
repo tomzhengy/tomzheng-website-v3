@@ -182,7 +182,12 @@ export default function Home() {
 
   // Define the intro text and paragraph segments as a single array
   const allSegments = [
-    { text: "hey! i'm Tom Zheng—co-founder of Linkd, based in sf." },
+    { text: "hey! i'm " },
+    { 
+      text: "Tom Zheng",
+      render: (text: string): ReactNode => <b>{text}</b>
+    },
+    { text: "—co-founder of Linkd, based in sf." },
     { text: " " },
     { 
       text: " ",
