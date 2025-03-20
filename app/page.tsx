@@ -225,7 +225,7 @@ export default function Home() {
       />
       
       <main ref={mainRef} className="flex min-h-screen justify-center">
-        <div className="text-left max-w-[500px] w-full px-4 pt-[10vh] sm:pt-[15vh] md:pt-[10vh]">
+        <div className="text-left max-w-[500px] w-full px-4 pt-[8vh] sm:pt-[8vh] md:pt-[8vh]">
           {/* Theme toggle and SF time in the same line within text margins */}
           <div className="flex justify-between items-center mb-8 h-8 relative">
             <div className="text-xl opacity-70 hover:opacity-100 transition-opacity min-w-[120px]">
@@ -240,8 +240,8 @@ export default function Home() {
                 height={24}
               />
             </div>
-            <div className="w-1/4 mx-22 h-px bg-current opacity-20 absolute"></div>
-            <div className="w-41/120 mx-66 h-px bg-current opacity-20 absolute"></div>
+            <div className="w-full max-w-[25%] h-px bg-current opacity-20 absolute left-[18%] top-1/2 transform -translate-y-1/2"></div>
+            <div className="w-full max-w-[36%] h-px bg-current opacity-20 absolute left-[57%] top-1/2 transform -translate-y-1/2"></div>
             <div className="opacity-70 hover:opacity-100 transition-opacity min-w-[24px] min-h-[24px] flex justify-end">
               <ThemeToggle />
             </div>
