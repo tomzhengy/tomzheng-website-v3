@@ -227,13 +227,14 @@ export default function Home() {
   
   // Combine and adjust pause points for the entire content
   const allPausePoints = [
-    { index: 5, duration: 700 }, // Pause after "hey!"
-    { index: 18, duration: 700 }, // Pause after "Tom"
-    { index: 52, duration: 700 }, // Pause after "Linkd based in sf."
+    { index: 5, duration: 600 }, // Pause after "hey!"
+    { index: 18, duration: 600 }, // Pause after "Tom"
+    { index: 52, duration: 600 }, // Pause after "Linkd based in sf."
+    { index: 53, duration: 600 }, // Pause after "Linkd based in sf."
     { index: 62, duration: 500 }, // Pause after "anyways,"
-    { index: 89, duration: 700 }, // Longer pause after "."
+    { index: 89, duration: 600 }, // Longer pause after "."
     { index: 104, duration: 500 }, // Pause after "."
-    { index: 105, duration: 1200 }, // Long pause at the br
+    { index: 105, duration: 400 }, // Pause at the br
     { index: 106, duration: 600 }, // Long pause after the br
     { index: 116, duration: 600 }, // Pause after "always,"
     { index: 106 + endText.length, duration: 300 }, // Pause at the end
@@ -268,7 +269,7 @@ export default function Home() {
         <div className="text-left max-w-[500px] w-full px-4 pt-[8vh] sm:pt-[8vh] md:pt-[8vh]">
           {/* Theme toggle and SF time in the same line within text margins */}
           <div className="flex justify-between items-center mb-8 h-8 relative">
-            <div className={`text-xl opacity-0 min-w-[120px] transition-all duration-700 ${showHeaderElements ? 'opacity-70 hover:opacity-100 translate-x-0' : 'translate-x-8'}`}>
+            <div className={`text-xl opacity-0 min-w-[120px] transition-all duration-700 ${showHeaderElements ? 'opacity-85 hover:opacity-100 translate-x-0' : 'translate-x-8'}`}>
               {currentTime}
             </div>
             <div className="flex justify-center absolute left-1/2 transform -translate-x-1/2 w-16 h-16">
@@ -282,11 +283,9 @@ export default function Home() {
             </div>
             <div className={`w-full max-w-[20%] sm:max-w-[26%] max-w-[18%] h-px bg-current opacity-0 absolute sm:left-[18%] left-[22%] top-1/2 transform -translate-y-1/2 transition-all duration-700 ${showHeaderElements ? 'opacity-20' : 'scale-x-0'}`}></div>
             <div className={`w-full max-w-[32.25%] sm:max-w-[35.5%] max-w-[28%] h-px bg-current opacity-0 absolute sm:left-[56%] left-[58%] top-1/2 transform -translate-y-1/2 transition-all duration-700 ${showHeaderElements ? 'opacity-20' : 'scale-x-0'}`}></div>
-            <div className={`opacity-0 min-w-[24px] min-h-[24px] flex justify-end transition-all duration-700 ${showHeaderElements ? 'opacity-70 hover:opacity-100 translate-x-0' : '-translate-x-8'} sm:mt-2 mt-2`}>
-              <div className="transform transition-transform duration-300 hover:rotate-12">
-                <div className="transition-colors duration-300">
-                  <ThemeToggle />
-                </div>
+            <div className={`opacity-0 min-w-[24px] min-h-[24px] flex justify-end transition-all duration-700 ${showHeaderElements ? 'opacity-70 hover:opacity-100 translate-x-0' : '-translate-x-8'} sm:mt-0 mt-0 sm:top-1/2 top-1/2`}>
+              <div className="transform hover:rotate-12 transition-transform duration-300">
+                <ThemeToggle />
               </div>
             </div>
           </div>

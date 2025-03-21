@@ -30,7 +30,7 @@ const TypeWriter = ({
   text,
   segments,
   pausePoints = [],
-  typingSpeed = 50,
+  typingSpeed = 60,
   onComplete,
   keepCursorAfterComplete = false,
   customEndIndicator = null,
@@ -262,7 +262,7 @@ const TypeWriter = ({
           margin-left: 2px;
         }
         .typewriter .cursor.blinking {
-          animation: blink 1.06s step-end infinite;
+          animation: blink 0.4s step-end infinite;
         }
       `}</style>
       {usingSegments ? renderSegments() : renderPlainText()}
