@@ -232,8 +232,8 @@ export default function Home() {
     { index: 52, duration: 700 }, // Pause after "Linkd based in sf."
     { index: 62, duration: 500 }, // Pause after "anyways,"
     { index: 89, duration: 700 }, // Longer pause after "."
-    { index: 104, duration: 800 }, // Pause after "."
-    { index: 105, duration: 400 }, // Long pause at the br
+    { index: 104, duration: 500 }, // Pause after "."
+    { index: 105, duration: 1200 }, // Long pause at the br
     { index: 106, duration: 600 }, // Long pause after the br
     { index: 116, duration: 600 }, // Pause after "always,"
     { index: 106 + endText.length, duration: 300 }, // Pause at the end
