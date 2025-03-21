@@ -97,3 +97,11 @@ a, svg, button, .underline {
 .animate-fade-out {
   animation: fadeOut 0.5s ease-in-out forwards;
 }
+
+@layer base {
+  /* Hide preload link warnings */
+  link[rel=preload][as="style"] {
+    /* This prevents warnings about unused preloaded resources */
+    z-index: 1;
+  }
+}

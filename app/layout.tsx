@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { ThemeProvider } from "./components/ThemeProvider";
+import { ThemeProvider } from "./components/ui/theme/ThemeProvider";
 
 export const metadata: Metadata = {
   title: "Tom Zheng",
   description: "hey, i'm Tom.",
+  metadataBase: new URL("https://tomzheng.dev"),
   keywords: ["Tom Zheng", "linkd", "San Francisco", "founder", "engineer", "O1 visa", "SDX", "UCSD", "Y Combinator", "Y Combinator X25", "YC X25", "linkd inc", "linkd.inc", "Tom", "Tom Zheng"],
   authors: [{ name: "Tom Zheng" }],
   creator: "Tom Zheng",
@@ -17,29 +18,27 @@ export const metadata: Metadata = {
     title: "Tom Zheng",
     description: "hey, i'm Tom.",
     siteName: "Tom Zheng",
-    images: [{
-      url: "/notion-face-portrait.png",
-      width: 1200,
-      height: 630,
-      alt: "Tom Zheng"
-    }]
+    images: ["/notion-face-transparent.webp"]
   },
   twitter: {
-    card: "summary_large_image",
+    card: "summary",
     title: "Tom Zheng",
     description: "hey, i'm Tom.",
-    images: ["/notion-face-portrait.png"]
+    images: ["/notion-face-transparent.webp"]
   },
   icons: {
     icon: [
-      { url: '/notion-face-portrait.png' }
+      { url: '/notion-face-transparent.webp' }
     ],
     apple: [
-      { url: '/notion-face-portrait.png' }
+      { url: '/notion-face-transparent.webp' }
     ]
   },
   alternates: {
     canonical: "https://tomzheng.dev"
+  },
+  other: {
+    'msapplication-TileImage': '/notion-face-transparent.webp'
   }
 };
 

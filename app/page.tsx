@@ -3,15 +3,19 @@
 // import Image from "next/image"; /* Temporarily unused while image is hidden */
 import { Suspense, useState, ReactNode, useEffect, useRef } from "react";
 import Script from "next/script";
-import TypeWriter from "./components/Typewriter";
-import FadeIn from "./components/FadeIn";
+import TypeWriter from "./components/ui/animation/Typewriter";
+import FadeIn from "./components/ui/animation/FadeIn";
 import dynamic from 'next/dynamic';
+import SkipHint from "./components/sections/SkipHint";
+import ContentSections from "./components/sections/ContentSections";
+import SocialLinks from "./components/sections/SocialLinks";
+import Footer from "./components/sections/Footer";
+import Header from "./components/sections/Header";
 
 // Dynamically import ThemeToggle with no SSR to avoid hydration issues
-const ThemeToggle = dynamic(() => import('./components/ThemeToggle'), { ssr: false });
+const ThemeToggle = dynamic(() => import('./components/ui/theme/ThemeToggle'), { ssr: false });
 
 export default function Home() {
-  const [emailCopied, setEmailCopied] = useState(false);
   const [paragraphComplete, setParagraphComplete] = useState(false);
   const [showContent, setShowContent] = useState(false);
   const [startTyping, setStartTyping] = useState(false);
@@ -171,12 +175,6 @@ export default function Home() {
     }
   }, [paragraphComplete, showSkipHint]);
 
-  const copyEmailToClipboard = () => {
-    navigator.clipboard.writeText("tom@linkd.inc");
-    setEmailCopied(true);
-    setTimeout(() => setEmailCopied(false), 2000);
-  };
-
   // Define ending text
   const endText = "as always, more coming soon :)";
 
@@ -225,20 +223,42 @@ export default function Home() {
     { text: endText }
   ];
   
+  // Calculate correct indices for pause points
+  const calculatePauseIndices = () => {
+    // Calculate precise segment boundaries
+    let totalLength = 0;
+    const segmentStartIndices: number[] = [];
+    
+    // First, collect all segment starting positions
+    allSegments.forEach(segment => {
+      segmentStartIndices.push(totalLength);
+      totalLength += segment.text.length;
+    });
+    
+    // For logging/debugging - remove in production
+    // console.log("Segment start indices:", segmentStartIndices);
+    // console.log("Total text length:", totalLength);
+    
+    // Create pause points using exact character indices
+    return [
+      { index: segmentStartIndices[0] + "hey! ".length, duration: 600 }, // Pause after "hey!"
+      { index: segmentStartIndices[1] + "Tom Zheng".length, duration: 600 }, // Pause after "Tom Zheng"
+      { index: segmentStartIndices[2] + "—co-founder of Linkd, based in sf.".length, duration: 600 }, // Pause after sf.
+      // The space character + line break
+      { index: segmentStartIndices[4] + " ".length, duration: 600 }, // Pause after br
+      { index: segmentStartIndices[5] + "anyways, ".length, duration: 500 }, // Pause after "anyways,"
+      { index: segmentStartIndices[7] + " meeting new people.".length, duration: 600 }, // Pause after "people."
+      { index: segmentStartIndices[9] + ".".length, duration: 600 }, // Pause after period
+      { index: segmentStartIndices[10] + " ".length, duration: 500 }, // Pause after first br
+      { index: segmentStartIndices[11] + " ".length, duration: 500 }, // Pause after second br
+      { index: segmentStartIndices[12] + "as always,".length, duration: 600 }, // Pause after "always,"
+      { index: totalLength - 1, duration: 300 }, // Pause right before end
+      { index: totalLength, duration: 300 }, // Pause at the very end
+    ];
+  };
+  
   // Combine and adjust pause points for the entire content
-  const allPausePoints = [
-    { index: 5, duration: 600 }, // Pause after "hey!"
-    { index: 18, duration: 600 }, // Pause after "Tom"
-    { index: 52, duration: 600 }, // Pause after "Linkd based in sf."
-    { index: 53, duration: 600 }, // Pause after "Linkd based in sf."
-    { index: 62, duration: 500 }, // Pause after "anyways,"
-    { index: 89, duration: 600 }, // Longer pause after "."
-    { index: 104, duration: 500 }, // Pause after "."
-    { index: 105, duration: 500 }, // Pause at the br
-    { index: 106, duration: 1000 }, // Long pause after the br
-    { index: 116, duration: 600 }, // Pause after "always,"
-    { index: 106 + endText.length, duration: 300 }, // Pause at the end
-  ];
+  const allPausePoints = calculatePauseIndices();
 
   return (
     <>
@@ -267,45 +287,18 @@ export default function Home() {
       
       <main ref={mainRef} className="flex min-h-screen justify-center">
         <div className="text-left max-w-[500px] w-full px-4 pt-[8vh] sm:pt-[8vh] md:pt-[8vh]">
-          {/* Theme toggle and SF time in the same line within text margins */}
-          <div className="flex justify-between items-center mb-8 h-8 relative">
-            <div className={`text-xl opacity-0 min-w-[120px] transition-all duration-700 ${showHeaderElements ? 'opacity-85 hover:opacity-100 translate-x-0' : 'translate-x-8'}`}>
-              {currentTime}
-            </div>
-            <div className="flex justify-center absolute left-1/2 transform -translate-x-1/2 w-16 h-16">
-              <img 
-                src="/notion-face-transparent.webp"
-                alt="Tom Zheng"
-                className="w-16 h-16 opacity-85 hover:opacity-100 transition-opacity"
-                width={24}
-                height={24}
-              />
-            </div>
-            <div className={`w-full max-w-[20%] sm:max-w-[26%] max-w-[18%] h-px bg-current opacity-0 absolute sm:left-[18%] left-[22%] top-1/2 transform -translate-y-1/2 transition-all duration-700 ${showHeaderElements ? 'opacity-20' : 'scale-x-0'}`}></div>
-            <div className={`w-full max-w-[32.25%] sm:max-w-[35.5%] max-w-[28%] h-px bg-current opacity-0 absolute sm:left-[56%] left-[58%] top-1/2 transform -translate-y-1/2 transition-all duration-700 ${showHeaderElements ? 'opacity-20' : 'scale-x-0'}`}></div>
-            <div className={`opacity-0 min-w-[24px] min-h-[24px] flex justify-end transition-all duration-700 ${showHeaderElements ? 'opacity-70 hover:opacity-100 translate-x-0' : '-translate-x-8'} sm:mt-0 mt-0 sm:top-1/2 top-1/2`}>
-              <div className="transform hover:rotate-12 transition-transform duration-300">
-                <ThemeToggle />
-              </div>
-            </div>
-          </div>
+          {/* Header with theme toggle and SF time */}
+          <Header 
+            currentTime={currentTime} 
+            showHeaderElements={showHeaderElements}
+            ThemeToggleComponent={ThemeToggle}
+          />
           
-          {/* Skip hint with button for mobile - centered on screen */}
-          {showSkipHint && (
-            <div 
-              className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 ${skipHintFading ? 'animate-fade-out' : 'animate-fade-in'}`}
-              style={{ opacity: skipHintFading ? 1 : 0 }} // Initial state for animation
-            >
-              <button 
-                id="skip-button"
-                className="bg-transparent text-gray-500 text-xs hover:text-gray-300 transition-colors py-1 px-2 rounded"
-                aria-label="Skip typewriter animation"
-              >
-                <em className="sm:hidden">tap to skip</em>
-                <em className="hidden sm:inline">space to skip</em>
-              </button>
-            </div>
-          )}
+          {/* Skip hint component */}
+          <SkipHint 
+            showSkipHint={showSkipHint} 
+            skipHintFading={skipHintFading} 
+          />
           
           <section aria-labelledby="introduction">
             <div className="text-xl">
@@ -324,98 +317,26 @@ export default function Home() {
             </div>
           </section>
           
-          {/* Line-by-line fade in sections after typewriter completes */}
+          {/* Content sections that fade in after typewriter completes */}
           {showContent && (
             <div className={isAnimationSkipped ? 'animate-fade-in' : ''}>
-              <section aria-labelledby="current-activities" className="mt-10 mb-8">
-                <FadeIn delay={baseDelay}>
-                  <h2 id="current-activities" className="text-xl mb-2">my time:</h2>
-                </FadeIn>
-                <ul className="list-disc pl-5 space-y-1">
-                  <FadeIn delay={baseDelay + delayIncrement * 1}>
-                    <li className="text-xl">connecting people @ <a href="https://linkd.inc" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-300 hover:decoration-white transition-colors">Linkd</a> with yc x25.</li>
-                  </FadeIn>
-                  <FadeIn delay={baseDelay + delayIncrement * 2}>
-                    <li className="text-xl">getting my o1 visa.</li>
-                  </FadeIn>
-                  <FadeIn delay={baseDelay + delayIncrement * 3}>
-                    <li className="text-xl">building <a href="https://www.sdx.community/chapters/ucsd" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-300 hover:decoration-white transition-colors">sdx</a> at ucsd.</li>
-                  </FadeIn>
-                </ul>
-              </section>
-
-              <section aria-labelledby="thinking thoughts" className="mt-10 mb-8">
-                <FadeIn delay={baseDelay + delayIncrement * 4}>
-                  <h2 id="thinking thoughts" className="text-xl mb-2">thinking about reading—dm me suggestions.</h2>
-                </FadeIn>
-                <FadeIn delay={baseDelay + delayIncrement * 5}>
-                  <h2 id="learning" className="text-xl mb-2">learning how to balance learning and doing (and golang).</h2>
-                </FadeIn>
-              </section>
+              {/* Content sections */}
+              <ContentSections
+                baseDelay={baseDelay}
+                delayIncrement={delayIncrement}
+              />
               
-              <div className="flex justify-center space-x-8 mt-12 mb-10">
-                <FadeIn delay={baseDelay + delayIncrement * 6} className="inline-block">
-                  <a href="https://linkedin.com/in/toomzheng" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentColor" fill="none" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-70 hover:opacity-100 transition-opacity">
-                      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                      <rect x="2" y="9" width="4" height="12"></rect>
-                      <circle cx="4" cy="4" r="2"></circle>
-                    </svg>
-                  </a>
-                </FadeIn>
-                <FadeIn delay={baseDelay + delayIncrement * 7} className="inline-block">
-                  <a href="https://x.com/tomzheng" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter) Profile">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentColor" fill="none" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-70 hover:opacity-100 transition-opacity">
-                      <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
-                    </svg>
-                  </a>
-                </FadeIn>
-                <FadeIn delay={baseDelay + delayIncrement * 8} className="inline-block">
-                  <a href="https://github.com/toomzheng" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentColor" fill="none" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-70 hover:opacity-100 transition-opacity">
-                      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-                    </svg>
-                  </a>
-                </FadeIn>
-                <FadeIn delay={baseDelay + delayIncrement * 9} className="inline-block">
-                  <button 
-                    onClick={copyEmailToClipboard} 
-                    className="relative cursor-pointer"
-                    aria-label="Copy email address to clipboard"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentColor" fill="none" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-70 hover:opacity-100 transition-opacity">
-                      <rect x="2" y="4" width="20" height="16" rx="2"></rect>
-                      <path d="M22 7l-10 7L2 7"></path>
-                    </svg>
-                    {emailCopied && (
-                      <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-foreground text-xs whitespace-nowrap bg-background/80 px-2 py-1 rounded-md backdrop-blur-sm">
-                        tom@linkd.inc copied!
-                      </span>
-                    )}
-                  </button>
-                </FadeIn>
-              </div>
+              {/* Social links */}
+              <SocialLinks
+                baseDelay={baseDelay}
+                delayIncrement={delayIncrement}
+              />
               
-              {/* Image section temporarily hidden
-              <FadeIn delay={baseDelay + delayIncrement * 10}>
-                <figure className="relative w-[105%] md:w-[112%] aspect-[3/2] mt-10 vignette-container -ml-[2.5%] md:-ml-[6%]">
-                  <Suspense fallback={<div className="w-full aspect-[3/2] bg-gray-800 rounded-md animate-pulse"></div>}>
-                    <Image 
-                      src="/forest-optimized.webp" 
-                      alt="Forest landscape with mountains and trees" 
-                      fill
-                      priority={true}
-                      placeholder="blur"
-                      blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMWExYTFhIi8+PC9zdmc+"
-                      sizes="(max-width: 768px) 105vw, 112vw"
-                      style={{ objectFit: 'cover' }}
-                      className="rounded-md"
-                    />
-                  </Suspense>
-                  <figcaption className="sr-only">A serene forest landscape</figcaption>
-                </figure>
-              </FadeIn>
-              */}
+              {/* Footer */}
+              <Footer
+                baseDelay={baseDelay}
+                delayIncrement={delayIncrement}
+              />
             </div>
           )}
         </div>
