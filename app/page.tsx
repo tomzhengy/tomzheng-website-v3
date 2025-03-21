@@ -234,8 +234,8 @@ export default function Home() {
     { index: 62, duration: 500 }, // Pause after "anyways,"
     { index: 89, duration: 600 }, // Longer pause after "."
     { index: 104, duration: 500 }, // Pause after "."
-    { index: 105, duration: 800 }, // Pause at the br
-    { index: 106, duration: 600 }, // Long pause after the br
+    { index: 105, duration: 500 }, // Pause at the br
+    { index: 106, duration: 1000 }, // Long pause after the br
     { index: 116, duration: 600 }, // Pause after "always,"
     { index: 106 + endText.length, duration: 300 }, // Pause at the end
   ];
