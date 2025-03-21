@@ -388,7 +388,7 @@ export default function Home() {
                       <path d="M22 7l-10 7L2 7"></path>
                     </svg>
                     {emailCopied && (
-                      <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-white text-xs whitespace-nowrap">
+                      <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-foreground text-xs whitespace-nowrap bg-background/80 px-2 py-1 rounded-md backdrop-blur-sm">
                         tom@linkd.inc copied!
                       </span>
                     )}
