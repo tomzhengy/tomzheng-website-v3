@@ -189,9 +189,6 @@ export default function Home() {
     }
   }, [paragraphComplete, showSkipHint]);
 
-  // Define ending text
-  const endText = "as always, more coming soon :)";
-
   // Define the intro text and paragraph segments with optional pause information
   const allSegments = [
     { 
@@ -207,7 +204,7 @@ export default function Home() {
       pauseAfter: { duration: 600 }
     },
     { 
-      text: "—co-founder of Linkd, based in sf.",
+      text: "—co-founder of Linkd.",
       pauseAfter: { duration: 400 }
     },
     { 
@@ -263,7 +260,7 @@ export default function Home() {
       pauseAfter: { duration: 600 }
     },
     { 
-      text: " more coming soon :)",
+      text: " more coming soon ;)",
       pauseAfter: { duration: 300 }
     }
   ];

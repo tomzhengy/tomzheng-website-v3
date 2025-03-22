@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "./components/ui/theme/ThemeProvider";
+import { inter, crimsonText, redaction } from './styles/fonts';
+import MouseTrailProvider from './components/MouseTrailProvider';
 
 export const metadata: Metadata = {
   title: "Tom Zheng",
@@ -48,9 +50,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${crimsonText.variable} ${redaction.variable}`}>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        {/* Preconnect to origin */}
+        <link rel="preconnect" href="https://tomzheng.dev" />
+        <link rel="dns-prefetch" href="https://tomzheng.dev" />
+        
+        {/* Preload critical image for LCP optimization */}
+        <link 
+          rel="preload" 
+          href="/notion-face-transparent.webp" 
+          as="image" 
+          type="image/webp"
+          fetchPriority="high"
+        />
         {/* Inline Theme Script - Will run immediately, before page renders */}
         <script
           dangerouslySetInnerHTML={{
@@ -79,6 +93,7 @@ export default function RootLayout({
       </head>
       <body>
         <ThemeProvider>
+          <MouseTrailProvider />
           {children}
         </ThemeProvider>
       </body>

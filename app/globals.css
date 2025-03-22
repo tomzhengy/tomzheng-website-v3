@@ -8,22 +8,32 @@
   --link-underline: #888888;
   --link-hover: #FFFFFF;
   
-  /* Transition settings for theme switching */
+  /* Font families */
+  --font-body: var(--font-redaction), serif;
+  --font-ui: var(--font-inter), system-ui, sans-serif;
+  
+  /* Animation durations - organized by purpose */
+  
+  /* Theme switching */
   --transition-duration: 0.3s;
   --transition-timing: ease;
   
-  /* Animation durations */
+  /* Header animations */
+  --animation-header: 0.7s;
+  --animation-theme-toggle: 0.35s;
+  
+  /* Content fade animations */
   --animation-fade-in: 0.6s;
   --animation-fade-out: 0.5s;
+  
+  /* General animation timings */
+  --animation-short: 0.3s;
+  --animation-medium: 0.5s;
+  --animation-long: 0.8s;
   
   /* Cursor blink settings */
   --cursor-blink-speed: 0.6s;
   --cursor-blink-interval: 300ms;
-  
-  /* Other animation timings */
-  --animation-short: 0.3s;
-  --animation-medium: 0.5s;
-  --animation-long: 0.8s;
 }
 
 /* Light mode overrides when .light class is present */
@@ -39,17 +49,17 @@
 html, body {
   background: var(--background);
   color: var(--foreground);
-  font-family: serif;
+  font-family: var(--font-body);
   transition: background-color var(--transition-duration) var(--transition-timing),
               color var(--transition-duration) var(--transition-timing);
 }
 
 /* Add transitions to interactive elements */
 a, svg, button, .underline {
-  transition: color var(--transition-duration) var(--transition-timing),
-              opacity var(--transition-duration) var(--transition-timing),
-              text-decoration-color var(--transition-duration) var(--transition-timing),
-              background-color var(--transition-duration) var(--transition-timing);
+  transition: color var(--animation-theme-toggle) var(--transition-timing),
+              opacity var(--animation-theme-toggle) var(--transition-timing),
+              text-decoration-color var(--animation-theme-toggle) var(--transition-timing),
+              background-color var(--animation-theme-toggle) var(--transition-timing);
 }
 
 /* Override Tailwind classes for themes */
@@ -117,6 +127,19 @@ a, svg, button, .underline {
 
 .animate-fade-out {
   animation: fadeOut var(--animation-fade-out) ease-in-out forwards;
+}
+
+/* Font utility classes */
+.font-body {
+  font-family: var(--font-body);
+}
+
+.font-ui {
+  font-family: var(--font-ui);
+}
+
+.font-redaction {
+  font-family: var(--font-redaction), serif;
 }
 
 @layer base {

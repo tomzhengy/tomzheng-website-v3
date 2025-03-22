@@ -32,7 +32,7 @@ export default function ContentSections({ baseDelay, delayIncrement }: ContentSe
           <h2 id="thinking thoughts" className="text-xl mb-2">thinking about reading—dm me suggestions.</h2>
         </FadeIn>
         <FadeIn delay={baseDelay + delayIncrement * 5}>
-          <h2 id="learning" className="text-xl mb-2">learning how to balance learning and doing (and golang).</h2>
+          <h2 id="learning" className="text-xl mb-2">learning to balance learning and doing.</h2>
         </FadeIn>
       </section>
     </>
