@@ -11,6 +11,19 @@
   /* Transition settings for theme switching */
   --transition-duration: 0.3s;
   --transition-timing: ease;
+  
+  /* Animation durations */
+  --animation-fade-in: 0.6s;
+  --animation-fade-out: 0.5s;
+  
+  /* Cursor blink settings */
+  --cursor-blink-speed: 0.6s;
+  --cursor-blink-interval: 300ms;
+  
+  /* Other animation timings */
+  --animation-short: 0.3s;
+  --animation-medium: 0.5s;
+  --animation-long: 0.8s;
 }
 
 /* Light mode overrides when .light class is present */
@@ -69,13 +82,21 @@ a, svg, button, .underline {
 
 /* Blinking cursor animation */
 @keyframes blink {
-  0%, 100% { opacity: 1; }
+  0% { opacity: 1; }
   50% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
-.blinking-cursor {
+.cursor-blink {
   display: inline-block;
-  animation: blink 1s step-end infinite;
+  margin-left: 2px;
+  animation: blink var(--cursor-blink-speed) ease-in-out infinite;
+}
+
+/* When typing, pause the animation and keep cursor visible */
+.cursor-blink.typing {
+  animation-play-state: paused; /* Pause the animation */
+  opacity: 1; /* Keep cursor fully visible */
 }
 
 /* Fade animations */
@@ -90,12 +111,12 @@ a, svg, button, .underline {
 }
 
 .animate-fade-in {
-  animation: fadeIn 0.6s ease-in-out forwards;
+  animation: fadeIn var(--animation-fade-in) ease-in-out forwards;
   opacity: 0;  /* Start invisible to ensure smooth animation */
 }
 
 .animate-fade-out {
-  animation: fadeOut 0.5s ease-in-out forwards;
+  animation: fadeOut var(--animation-fade-out) ease-in-out forwards;
 }
 
 @layer base {

@@ -1,5 +1,7 @@
 "use client";
 
+import { ANIMATION_CLASSES } from "../../utils/animation";
+
 interface SkipHintProps {
   showSkipHint: boolean;
   skipHintFading: boolean;
@@ -10,7 +12,7 @@ export default function SkipHint({ showSkipHint, skipHintFading }: SkipHintProps
   
   return (
     <div 
-      className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 ${skipHintFading ? 'animate-fade-out' : 'animate-fade-in'}`}
+      className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 ${skipHintFading ? ANIMATION_CLASSES.FADE_OUT : ANIMATION_CLASSES.FADE_IN}`}
       style={{ opacity: skipHintFading ? 1 : 0 }} // Initial state for animation
     >
       <button 

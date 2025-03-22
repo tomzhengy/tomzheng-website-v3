@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import FadeIn from "../ui/animation/FadeIn";
+import { ANIMATIONS } from "../../utils/animation";
 
 interface SocialLinksProps {
   baseDelay: number;
@@ -14,7 +15,7 @@ export default function SocialLinks({ baseDelay, delayIncrement }: SocialLinksPr
   const copyEmailToClipboard = () => {
     navigator.clipboard.writeText("tom@linkd.inc");
     setEmailCopied(true);
-    setTimeout(() => setEmailCopied(false), 2000);
+    setTimeout(() => setEmailCopied(false), ANIMATIONS.TOAST.SHORT);
   };
 
   return (
@@ -29,7 +30,7 @@ export default function SocialLinks({ baseDelay, delayIncrement }: SocialLinksPr
         </a>
       </FadeIn>
       <FadeIn delay={baseDelay + delayIncrement * 7} className="inline-block">
-        <a href="https://x.com/tomzheng" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter) Profile">
+        <a href="https://x.com/toomzheng" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter) Profile">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentColor" fill="none" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-70 hover:opacity-100 transition-opacity">
             <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
           </svg>

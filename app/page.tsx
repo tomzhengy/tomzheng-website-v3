@@ -11,6 +11,20 @@ import ContentSections from "./components/sections/ContentSections";
 import SocialLinks from "./components/sections/SocialLinks";
 import Footer from "./components/sections/Footer";
 import Header from "./components/sections/Header";
+import { ANIMATIONS } from './utils/animation';
+
+// Define the PausePoint interface
+interface PausePoint {
+  index: number;
+  duration: number;
+}
+
+// Also need to update the segment interface to include pause information
+interface TextSegment {
+  text: string;
+  render?: (text: string) => ReactNode;
+  pauseAfter?: { duration: number };
+}
 
 // Dynamically import ThemeToggle with no SSR to avoid hydration issues
 const ThemeToggle = dynamic(() => import('./components/ui/theme/ThemeToggle'), { ssr: false });
@@ -44,10 +58,10 @@ export default function Home() {
           if (!hasSkippedRef.current) {
             setShowSkipHint(true);
           }
-        }, 1000);
+        }, ANIMATIONS.MEDIUM()); // Medium delay
         return () => clearTimeout(hintTimer);
       }
-    }, 2000); // 2 second delay
+    }, ANIMATIONS.LONG() * 2.5); // Initial delay
     
     return () => clearTimeout(timer);
   }, [isAnimationSkipped, paragraphComplete]);
@@ -57,9 +71,9 @@ export default function Home() {
     if (showContent) {
       // Calculate when the last fade-in animation would finish
       // The last animation is at baseDelay + delayIncrement * 9
-      // Add animation duration (~700ms) to ensure it's complete
+      // Add animation duration to ensure it's complete
       const lastFadeInDelay = baseDelay + delayIncrement * 9;
-      const animationDuration = 700;
+      const animationDuration = ANIMATIONS.FADE_IN();
       const totalDelay = lastFadeInDelay + animationDuration;
       
       const timer = setTimeout(() => {
@@ -112,7 +126,7 @@ export default function Home() {
           setTimeout(() => {
             setShowSkipHint(false);
             setSkipHintFading(false);
-          }, 500); // Match the duration of the fade-out animation
+          }, ANIMATIONS.FADE_OUT()); // Match the fade-out animation duration
         }
         
         if (!isAnimationSkipped) {
@@ -154,7 +168,7 @@ export default function Home() {
       // Add a slight delay for better effect
       const timer = setTimeout(() => {
         setShowContent(true);
-      }, isAnimationSkipped ? 100 : 800); // Shorter delay if skipped
+      }, isAnimationSkipped ? ANIMATIONS.SHORT() / 3 : ANIMATIONS.LONG()); // Shorter delay if skipped
       return () => clearTimeout(timer);
     }
   }, [paragraphComplete, isAnimationSkipped]);
@@ -169,7 +183,7 @@ export default function Home() {
       const fadeOutTimer = setTimeout(() => {
         setShowSkipHint(false);
         setSkipHintFading(false);
-      }, 500); // Match the duration of the fade-out animation
+      }, ANIMATIONS.FADE_OUT()); // Match the fade-out animation duration
       
       return () => clearTimeout(fadeOutTimer);
     }
@@ -178,25 +192,44 @@ export default function Home() {
   // Define ending text
   const endText = "as always, more coming soon :)";
 
-  // Define the intro text and paragraph segments as a single array
+  // Define the intro text and paragraph segments with optional pause information
   const allSegments = [
-    { text: "hey! i'm " },
+    { 
+      text: "hey!",
+      pauseAfter: { duration: 600 } 
+    },
+    { 
+      text: " i'm ",
+    },
     { 
       text: "Tom Zheng",
-      render: (text: string): ReactNode => <b>{text}</b>
+      render: (text: string): ReactNode => <b>{text}</b>,
+      pauseAfter: { duration: 600 }
     },
-    { text: "—co-founder of Linkd, based in sf." },
-    { text: " " },
+    { 
+      text: "—co-founder of Linkd, based in sf.",
+      pauseAfter: { duration: 400 }
+    },
     { 
       text: " ",
-      render: (): ReactNode => <br />
+      render: (): ReactNode => <br />,
+      pauseAfter: { duration: 700 }
     },
-    { text: "anyways, i " },
+    { 
+      text: "anyways, ",
+      pauseAfter: { duration: 500 }
+    },
+    {
+      text: "i "
+    },
     { 
       text: "love",
       render: (text: string): ReactNode => <b>{text}</b>
     },
-    { text: " meeting new people. so let's " },
+    { text: " meeting new people.",
+      pauseAfter: { duration: 600 }
+    },
+    { text: " so let's " },
     { 
       text: "chat",
       render: (text: string): ReactNode => (
@@ -211,54 +244,56 @@ export default function Home() {
         </a>
       )
     },
-    { text: "." },
     { 
-      text: " ",
-      render: (): ReactNode => <br />
+      text: ".",
+      pauseAfter: { duration: 600 }
     },
     { 
       text: " ",
-      render: (): ReactNode => <br />
+      render: (): ReactNode => <br />,
+      pauseAfter: { duration: 500 }
     },
-    { text: endText }
+    { 
+      text: " ",
+      render: (): ReactNode => <br />,
+      pauseAfter: { duration: 700 }
+    },
+    { 
+      text: "as always,",
+      pauseAfter: { duration: 600 }
+    },
+    { 
+      text: " more coming soon :)",
+      pauseAfter: { duration: 300 }
+    }
   ];
   
-  // Calculate correct indices for pause points
-  const calculatePauseIndices = () => {
-    // Calculate precise segment boundaries
-    let totalLength = 0;
-    const segmentStartIndices: number[] = [];
+  // Calculate pause points based on segment pause data
+  const calculatePausePoints = () => {
+    const pausePoints: PausePoint[] = [];
+    let currentIndex = 0;
     
-    // First, collect all segment starting positions
-    allSegments.forEach(segment => {
-      segmentStartIndices.push(totalLength);
-      totalLength += segment.text.length;
+    allSegments.forEach((segment) => {
+      // Add the current segment length to our index counter
+      const segmentEndIndex = currentIndex + segment.text.length;
+      
+      // If this segment has pause data, add a pause point
+      if (segment.pauseAfter) {
+        pausePoints.push({
+          index: segmentEndIndex,
+          duration: segment.pauseAfter.duration
+        });
+      }
+      
+      // Update the index for the next segment
+      currentIndex = segmentEndIndex;
     });
     
-    // For logging/debugging - remove in production
-    // console.log("Segment start indices:", segmentStartIndices);
-    // console.log("Total text length:", totalLength);
-    
-    // Create pause points using exact character indices
-    return [
-      { index: segmentStartIndices[0] + "hey! ".length, duration: 600 }, // Pause after "hey!"
-      { index: segmentStartIndices[1] + "Tom Zheng".length, duration: 600 }, // Pause after "Tom Zheng"
-      { index: segmentStartIndices[2] + "—co-founder of Linkd, based in sf.".length, duration: 600 }, // Pause after sf.
-      // The space character + line break
-      { index: segmentStartIndices[4] + " ".length, duration: 600 }, // Pause after br
-      { index: segmentStartIndices[5] + "anyways, ".length, duration: 500 }, // Pause after "anyways,"
-      { index: segmentStartIndices[7] + " meeting new people.".length, duration: 600 }, // Pause after "people."
-      { index: segmentStartIndices[9] + ".".length, duration: 600 }, // Pause after period
-      { index: segmentStartIndices[10] + " ".length, duration: 500 }, // Pause after first br
-      { index: segmentStartIndices[11] + " ".length, duration: 500 }, // Pause after second br
-      { index: segmentStartIndices[12] + "as always,".length, duration: 600 }, // Pause after "always,"
-      { index: totalLength - 1, duration: 300 }, // Pause right before end
-      { index: totalLength, duration: 300 }, // Pause at the very end
-    ];
+    return pausePoints;
   };
   
-  // Combine and adjust pause points for the entire content
-  const allPausePoints = calculatePauseIndices();
+  // Generate pause points from segment data
+  const allPausePoints = calculatePausePoints();
 
   return (
     <>
@@ -341,16 +376,6 @@ export default function Home() {
           )}
         </div>
       </main>
-      <style jsx global>{`
-        @keyframes blink {
-          0%, 49% { opacity: 1; }
-          50%, 100% { opacity: 0; }
-        }
-        .cursor-blink {
-          animation: blink 1.06s step-end infinite;
-          margin-left: 2px;
-        }
-      `}</style>
     </>
   );
 }
