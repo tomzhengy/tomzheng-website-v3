@@ -204,7 +204,7 @@ export default function Home() {
       pauseAfter: { duration: 600 }
     },
     { 
-      text: "—co-founder of Linkd.",
+      text: "—cofounder of Linkd.",
       pauseAfter: { duration: 400 }
     },
     { 

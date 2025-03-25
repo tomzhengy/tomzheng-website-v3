@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "./components/ui/theme/ThemeProvider";
 import { inter, crimsonText, redaction } from './styles/fonts';
-import MouseTrailProvider from './components/MouseTrailProvider';
 
 export const metadata: Metadata = {
   title: "Tom Zheng",
@@ -93,7 +92,6 @@ export default function RootLayout({
       </head>
       <body>
         <ThemeProvider>
-          <MouseTrailProvider />
           {children}
         </ThemeProvider>
       </body>
