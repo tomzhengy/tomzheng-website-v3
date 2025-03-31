@@ -193,7 +193,7 @@ export default function Home() {
   const allSegments = [
     { 
       text: "hey!",
-      pauseAfter: { duration: 600 } 
+      pauseAfter: { duration: 600 }
     },
     { 
       text: " i'm ",
