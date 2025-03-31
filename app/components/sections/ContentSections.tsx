@@ -32,7 +32,7 @@ export default function ContentSections({ baseDelay, delayIncrement }: ContentSe
           <h2 id="thinking thoughts" className="text-xl mb-2">thinking about reading—dm me suggestions.</h2>
         </FadeIn>
         <FadeIn delay={baseDelay + delayIncrement * 5}>
-          <h2 id="learning" className="text-xl mb-2">interested in angel investing. DM me on X if you're interested.</h2>
+          <h2 id="learning" className="text-xl mb-2">dabbling in angel investing. let's talk if you're interested.</h2>
         </FadeIn>
       </section>
     </>
