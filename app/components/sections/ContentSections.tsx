@@ -28,11 +28,11 @@ export default function ContentSections({ baseDelay, delayIncrement }: ContentSe
       </section>
 
       <section aria-labelledby="thinking thoughts" className="mt-10 mb-8">
-        <FadeIn delay={baseDelay + delayIncrement * 4}>
-          <h2 id="thinking thoughts" className="text-xl mb-2">thinking about reading—dm me suggestions.</h2>
-        </FadeIn>
+      <FadeIn delay={baseDelay + delayIncrement * 4}>
+        <h2 id="learning" className="text-xl mb-2">angel investing. <a href="https://cal.com/tomzheng/angel-meeting" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-300 hover:decoration-white transition-colors">let's talk</a> if you're interested.</h2>
+      </FadeIn>
         <FadeIn delay={baseDelay + delayIncrement * 5}>
-          <h2 id="learning" className="text-xl mb-2">angel investing. let's talk if you're interested.</h2>
+          <h2 id="thinking thoughts" className="text-xl mb-2">thinking about reading—dm me suggestions.</h2>
         </FadeIn>
       </section>
     </>
