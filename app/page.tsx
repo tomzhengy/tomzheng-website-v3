@@ -212,26 +212,22 @@ export default function Home() {
       render: (): ReactNode => <br />,
       pauseAfter: { duration: 700 }
     },
-    { 
-      text: "anyways, ",
-      pauseAfter: { duration: 500 }
-    },
     {
-      text: "i "
+      text: "i'd "
     },
     { 
       text: "love",
       render: (text: string): ReactNode => <b>{text}</b>
     },
-    { text: " meeting new people.",
+    { text: " to meet you.",
       pauseAfter: { duration: 600 }
     },
     { text: " so let's " },
     { 
-      text: "chat",
+      text: "chat.",
       render: (text: string): ReactNode => (
         <a 
-          href="https://cal.com/tomzheng/chat" 
+          href="https://x.com/toomzheng" 
           target="_blank"
           rel="noopener noreferrer"
           className="underline decoration-gray-300 hover:decoration-white transition-colors" 
@@ -241,6 +237,7 @@ export default function Home() {
         </a>
       )
     },
+    { text: " i always reply" },
     { 
       text: ".",
       pauseAfter: { duration: 600 }
