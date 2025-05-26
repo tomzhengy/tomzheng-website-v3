@@ -204,7 +204,7 @@ export default function Home() {
       pauseAfter: { duration: 600 }
     },
     { 
-      text: "—cofounder of Linkd.",
+      text: "—cofounder of clado.",
       pauseAfter: { duration: 400 }
     },
     { 
@@ -303,12 +303,12 @@ export default function Home() {
             "jobTitle": "Founder",
             "worksFor": {
               "@type": "Organization",
-              "name": "linkd",
-              "url": "https://linkd.inc"
+              "name": "clado",
+              "url": "https://clado.ai"
             },
-            "knowsAbout": ["Programming", "Entrepreneurship", "Community Building", "Y Combinator", "O1 Visa", "SDX", "UCSD", "San Francisco", "Founder", "Engineer", "Linkd", "Linkd Inc", "Linkd.Inc", "Tom Zheng", "Tom", "Founder", "Engineer"],
+            "knowsAbout": ["Programming", "Entrepreneurship", "Community Building", "Y Combinator", "O1 Visa", "SDX", "UCSD", "San Francisco", "Founder", "Engineer", "Clado", "Clado AI", "clado.ai", "Tom Zheng", "Tom", "Founder", "Engineer"],
             "sameAs": [
-              "https://www.sdx.community/chapters/ucsd", "https://linkd.inc", "https://tomzheng.dev", "https://linkedin.com/in/tomzheng"
+              "https://www.sdx.community/chapters/ucsd", "https://clado.ai", "https://tomzheng.dev", "https://linkedin.com/in/tomzheng"
             ]
           })
         }}

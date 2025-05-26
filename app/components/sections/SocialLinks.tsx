@@ -13,7 +13,7 @@ export default function SocialLinks({ baseDelay, delayIncrement }: SocialLinksPr
   const [emailCopied, setEmailCopied] = useState(false);
 
   const copyEmailToClipboard = () => {
-    navigator.clipboard.writeText("tom@linkd.inc");
+    navigator.clipboard.writeText("tom@clado.ai");
     setEmailCopied(true);
     setTimeout(() => setEmailCopied(false), ANIMATIONS.TOAST.SHORT);
   };
@@ -55,7 +55,7 @@ export default function SocialLinks({ baseDelay, delayIncrement }: SocialLinksPr
           </svg>
           {emailCopied && (
             <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-foreground text-xs whitespace-nowrap bg-background/80 px-2 py-1 rounded-md backdrop-blur-sm">
-              tom@linkd.inc copied!
+              tom@clado.ai copied!
             </span>
           )}
         </button>

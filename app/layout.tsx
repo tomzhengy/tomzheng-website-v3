@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: "Tom Zheng",
   description: "hey, i'm Tom.",
   metadataBase: new URL("https://tomzheng.dev"),
-  keywords: ["Tom Zheng", "linkd", "San Francisco", "founder", "engineer", "O1 visa", "SDX", "UCSD", "Y Combinator", "Y Combinator X25", "YC X25", "linkd inc", "linkd.inc", "Tom", "Tom Zheng"],
+  keywords: ["Tom Zheng", "clado", "San Francisco", "founder", "engineer", "O1 visa", "SDX", "UCSD", "Y Combinator", "Y Combinator X25", "YC X25", "clado ai", "clado.ai", "Tom", "Tom Zheng"],
   authors: [{ name: "Tom Zheng" }],
   creator: "Tom Zheng",
   publisher: "Tom Zheng",

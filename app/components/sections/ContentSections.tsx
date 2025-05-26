@@ -16,7 +16,7 @@ export default function ContentSections({ baseDelay, delayIncrement }: ContentSe
         </FadeIn>
         <ul className="list-disc pl-5 space-y-1">
           <FadeIn delay={baseDelay + delayIncrement * 1}>
-            <li className="text-xl">connecting people @ <a href="https://linkd.inc" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-300 hover:decoration-white transition-colors">Linkd</a> with yc x25.</li>
+            <li className="text-xl">connecting people @ <a href="https://clado.ai" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-300 hover:decoration-white transition-colors">clado</a> with yc x25.</li>
           </FadeIn>
           <FadeIn delay={baseDelay + delayIncrement * 2}>
             <li className="text-xl">getting my o1 visa.</li>
