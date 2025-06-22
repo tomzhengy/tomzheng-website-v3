@@ -204,7 +204,7 @@ export default function Home() {
       pauseAfter: { duration: 600 }
     },
     { 
-      text: "—cofounder of clado.",
+      text: "—cofounder of <a href='https://clado.ai' target='_blank' rel='noopener noreferrer' className='underline decoration-gray-300 hover:decoration-white transition-colors'>clado</a>.",
       pauseAfter: { duration: 400 }
     },
     { 
