@@ -233,7 +233,7 @@ export default function Home() {
       text: "chat.",
       render: (text: string): ReactNode => (
         <a 
-          href="https://x.com/toomzheng" 
+          href="https://x.com/tomzhengy" 
           target="_blank"
           rel="noopener noreferrer"
           className="underline decoration-gray-300 hover:decoration-white transition-colors" 
