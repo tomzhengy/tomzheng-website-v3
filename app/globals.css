@@ -54,12 +54,17 @@ html, body {
               color var(--transition-duration) var(--transition-timing);
 }
 
-/* Add transitions to interactive elements */
-a, svg, button, .underline {
+/* Add transitions to interactive elements and standalone SVGs */
+a, button, .underline {
   transition: color var(--animation-theme-toggle) var(--transition-timing),
               opacity var(--animation-theme-toggle) var(--transition-timing),
               text-decoration-color var(--animation-theme-toggle) var(--transition-timing),
               background-color var(--animation-theme-toggle) var(--transition-timing);
+}
+
+/* Prevent double transitions on nested SVGs by removing their transitions */
+a svg, button svg {
+  transition: none;
 }
 
 /* Override Tailwind classes for themes */

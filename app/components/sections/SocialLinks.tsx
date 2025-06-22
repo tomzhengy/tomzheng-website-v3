@@ -1,8 +1,6 @@
 "use client";
 
-import { useState } from "react";
 import FadeIn from "../ui/animation/FadeIn";
-import { ANIMATIONS } from "../../utils/animation";
 
 interface SocialLinksProps {
   baseDelay: number;
@@ -10,14 +8,6 @@ interface SocialLinksProps {
 }
 
 export default function SocialLinks({ baseDelay, delayIncrement }: SocialLinksProps) {
-  const [emailCopied, setEmailCopied] = useState(false);
-
-  const copyEmailToClipboard = () => {
-    navigator.clipboard.writeText("tom@clado.ai");
-    setEmailCopied(true);
-    setTimeout(() => setEmailCopied(false), ANIMATIONS.TOAST.SHORT);
-  };
-
   return (
     <div className="flex justify-center space-x-8 mt-12 mb-10">
       <FadeIn delay={baseDelay + delayIncrement * 6} className="inline-block">
@@ -43,23 +33,7 @@ export default function SocialLinks({ baseDelay, delayIncrement }: SocialLinksPr
           </svg>
         </a>
       </FadeIn>
-      <FadeIn delay={baseDelay + delayIncrement * 9} className="inline-block">
-        <button 
-          onClick={copyEmailToClipboard} 
-          className="relative cursor-pointer"
-          aria-label="Copy email address to clipboard"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentColor" fill="none" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-70 hover:opacity-100">
-            <rect x="2" y="4" width="20" height="16" rx="2"></rect>
-            <path d="M22 7l-10 7L2 7"></path>
-          </svg>
-          {emailCopied && (
-            <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-foreground text-xs whitespace-nowrap bg-background/80 px-2 py-1 rounded-md backdrop-blur-sm">
-              tom@clado.ai copied!
-            </span>
-          )}
-        </button>
-      </FadeIn>
+
     </div>
   );
 } 
