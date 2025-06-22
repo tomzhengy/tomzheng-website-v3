@@ -210,7 +210,9 @@ export default function Home() {
       text: "clado",
       render: (text: string): ReactNode => (
         <a href="https://clado.ai" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-300 hover:decoration-white transition-colors">clado</a>
-      ),
+      )
+    },
+    { text: ".",
       pauseAfter: { duration: 400 }
     },
     { 
@@ -321,7 +323,7 @@ export default function Home() {
       />
       
       <main ref={mainRef} className="flex min-h-screen justify-center">
-        <div className="text-left max-w-[500px] w-full px-4 pt-[8vh] sm:pt-[8vh] md:pt-[8vh]">
+        <div className="text-left max-w-[500px] w-full px-4 pt-[8vh] sm:pt-[8vh] md:pt-[8vh] pb-16">
           {/* Header with theme toggle and SF time */}
           <Header 
             currentTime={currentTime} 
