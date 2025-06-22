@@ -32,7 +32,7 @@ export default function ContentSections({ baseDelay, delayIncrement }: ContentSe
 
       <section aria-labelledby="thinking thoughts" className="mt-10 mb-8">
       <FadeIn delay={baseDelay + delayIncrement * 4}>
-        <h2 id="thinking " className="text-xl mb-2">i also like to swim, gym, read, and create experiences.</h2>
+        <h2 id="thinking " className="text-xl mb-2">i also swim (competitively), gym, read, and love creating experiences.</h2>
       </FadeIn>
       </section>
     </>
