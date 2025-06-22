@@ -6,7 +6,7 @@ import { inter, crimsonText, redaction } from './styles/fonts';
 export const metadata: Metadata = {
   title: "Tom Zheng",
   description: "hey, i'm Tom.",
-  metadataBase: new URL("https://tomzheng.dev"),
+  metadataBase: new URL("https://tyzheng.com"),
   keywords: ["Tom Zheng", "clado", "San Francisco", "founder", "engineer", "O1 visa", "SDX", "UCSD", "Y Combinator", "Y Combinator X25", "YC X25", "clado ai", "clado.ai", "Tom", "Tom Zheng"],
   authors: [{ name: "Tom Zheng" }],
   creator: "Tom Zheng",
@@ -15,16 +15,16 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://tomzheng.dev",
+    url: "https://tyzheng.com",
     title: "Tom Zheng",
-    description: "hey, i'm Tom.",
+    description: "Tom Zheng. I'm currently building Clado (YC X25). Clado is an agentic people-search platform. Think deep research, but for humans. We’re building the most powerful people search engine on the planet to power sales, recruiting and research for every company. I previously studied Data Science and Aerospace Engineering at UC San Diego. I'm grew up in Toronto, Canada and am now located in San Francisco learning and building the American Dream.",
     siteName: "Tom Zheng",
     images: ["/notion-face-transparent.webp"]
   },
   twitter: {
     card: "summary",
     title: "Tom Zheng",
-    description: "hey, i'm Tom.",
+    description: "Tom Zheng. I'm currently building Clado (YC X25). Clado is an agentic people-search platform. Think deep research, but for humans. We’re building the most powerful people search engine on the planet to power sales, recruiting and research for every company. I previously studied Data Science and Aerospace Engineering at UC San Diego. I'm grew up in Toronto, Canada and am now located in San Francisco learning and building the American Dream.",
     images: ["/notion-face-transparent.webp"]
   },
   icons: {
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     ]
   },
   alternates: {
-    canonical: "https://tomzheng.dev"
+    canonical: "https://tyzheng.com"
   },
   other: {
     'msapplication-TileImage': '/notion-face-transparent.webp'
@@ -53,8 +53,8 @@ export default function RootLayout({
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         {/* Preconnect to origin */}
-        <link rel="preconnect" href="https://tomzheng.dev" />
-        <link rel="dns-prefetch" href="https://tomzheng.dev" />
+        <link rel="preconnect" href="https://tyzheng.com" />
+        <link rel="dns-prefetch" href="https://tyzheng.com" />
         
         {/* Preload critical image for LCP optimization */}
         <link 

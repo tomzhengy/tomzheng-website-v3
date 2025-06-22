@@ -299,7 +299,7 @@ export default function Home() {
             "@context": "https://schema.org",
             "@type": "Person",
             "name": "Tom Zheng",
-            "url": "https://tomzheng.dev",
+            "url": "https://tyzheng.com",
             "jobTitle": "Founder",
             "worksFor": {
               "@type": "Organization",
@@ -308,7 +308,7 @@ export default function Home() {
             },
             "knowsAbout": ["Programming", "Entrepreneurship", "Community Building", "Y Combinator", "O1 Visa", "SDX", "UCSD", "San Francisco", "Founder", "Engineer", "Clado", "Clado AI", "clado.ai", "Tom Zheng", "Tom", "Founder", "Engineer"],
             "sameAs": [
-              "https://www.sdx.community/chapters/ucsd", "https://clado.ai", "https://tomzheng.dev", "https://linkedin.com/in/tomzheng"
+              "https://www.sdx.community/chapters/ucsd", "https://clado.ai", "https://tyzheng.com", "https://tomzhe.ng", "https://tomzheng.dev", "https://linkedin.com/in/tomzheng"
             ]
           })
         }}
