@@ -204,7 +204,7 @@ export default function Home() {
       pauseAfter: { duration: 600 }
     },
     { 
-      text: "—cofounder of"
+      text: "—cofounder of "
     },
     {
       text: "clado",

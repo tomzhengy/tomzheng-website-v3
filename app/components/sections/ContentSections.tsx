@@ -19,21 +19,18 @@ export default function ContentSections({ baseDelay, delayIncrement }: ContentSe
             <li className="text-xl">connecting people @ <a href="https://clado.ai" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-300 hover:decoration-white transition-colors">clado</a> with yc x25.</li>
           </FadeIn>
           <FadeIn delay={baseDelay + delayIncrement * 2}>
-            <li className="text-xl">getting my o1 visa.</li>
+            <li className="text-xl">getting my O1 visa.</li>
           </FadeIn>
           <FadeIn delay={baseDelay + delayIncrement * 3}>
-            <li className="text-xl">building <a href="https://www.sdx.community/chapters/ucsd" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-300 hover:decoration-white transition-colors">sdx</a> at ucsd.</li>
+            <li className="text-xl">building <a href="https://www.sdx.community/chapters/ucsd" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-300 hover:decoration-white transition-colors">SDx</a> at ucsd.</li>
           </FadeIn>
         </ul>
       </section>
 
       <section aria-labelledby="thinking thoughts" className="mt-10 mb-8">
       <FadeIn delay={baseDelay + delayIncrement * 4}>
-        <h2 id="learning" className="text-xl mb-2">angel investing. <a href="https://x.com/toomzheng" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-300 hover:decoration-white transition-colors">let's talk</a> if you're interested.</h2>
+        <h2 id="thinking " className="text-xl mb-2">i also like to swim, gym, read, and creating experiences.</h2>
       </FadeIn>
-        <FadeIn delay={baseDelay + delayIncrement * 5}>
-          <h2 id="thinking thoughts" className="text-xl mb-2">thinking about reading—dm me suggestions.</h2>
-        </FadeIn>
       </section>
     </>
   );
