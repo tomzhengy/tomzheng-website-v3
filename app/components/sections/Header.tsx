@@ -55,17 +55,20 @@ export default function Header({ currentTime, showHeaderElements, ThemeToggleCom
             
             {/* Arrow and text */}
             <div 
-              className={`absolute -top-12 left-8 opacity-0 transition-all ${showHeaderElements ? 'opacity-50' : 'opacity-0 -translate-y-2'}`}
+              className={`absolute -top-12 left-8 opacity-0 ${showHeaderElements ? 'opacity-50' : 'opacity-0 -translate-y-2'}`}
               style={{ 
-                transitionDuration: 'var(--animation-header)',
-                transitionDelay: showHeaderElements ? '0.6s' : '0s',
-                transitionTimingFunction: 'var(--transition-timing)'
+                transition: `opacity var(--animation-header) var(--transition-timing),
+                            transform var(--animation-header) var(--transition-timing)`,
+                transitionDelay: showHeaderElements ? '0.6s' : '0s'
               }}
             >
               {/* Simple text with slant */}
               <span 
                 className="text-xs italic text-foreground/50 whitespace-nowrap inline-block"
-                style={{ transform: 'rotate(-5deg)' }}
+                style={{ 
+                  transform: 'rotate(-5deg)',
+                  transition: 'color var(--transition-duration) var(--transition-timing)'
+                }}
               >
                 my local time!
               </span>
@@ -78,6 +81,9 @@ export default function Header({ currentTime, showHeaderElements, ThemeToggleCom
                 fill="none" 
                 xmlns="http://www.w3.org/2000/svg"
                 className="absolute top-5 left-0"
+                style={{
+                  transition: 'stroke var(--transition-duration) var(--transition-timing)'
+                }}
               >
                 <path 
                   d="M 35 2 Q 20 12 8 24 L 10 21 M 8 24 L 11 23" 
