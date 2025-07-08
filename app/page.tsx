@@ -85,25 +85,25 @@ export default function Home() {
     }
   }, [showContent, baseDelay, delayIncrement]);
 
-  // Effect to update the SF time every minute
+  // Effect to update the EST time every second
   useEffect(() => {
-    const updateSFTime = () => {
+    const updateESTTime = () => {
       const options: Intl.DateTimeFormatOptions = { 
         hour: 'numeric', 
         minute: '2-digit',
         second: '2-digit',
         hour12: false,
-        timeZone: 'America/Los_Angeles'
+        timeZone: 'America/New_York'
       };
-      const sfTime = new Date().toLocaleTimeString('en-US', options);
-      setCurrentTime(sfTime);
+      const estTime = new Date().toLocaleTimeString('en-US', options);
+      setCurrentTime(estTime);
     };
     
     // Initial update
-    updateSFTime();
+    updateESTTime();
     
     // Set interval to update every second
-    const interval = setInterval(updateSFTime, 1);
+    const interval = setInterval(updateESTTime, 1);
     
     return () => clearInterval(interval);
   }, []);
@@ -225,10 +225,10 @@ export default function Home() {
       text: "i'd "
     },
     { 
-      text: "love",
-      render: (text: string): ReactNode => <b>{text}</b>
+      text: "love to meet ",
     },
-    { text: " to meet you.",
+    { text: "you.",
+      render: (text: string): ReactNode => <b>{text}</b>,
       pauseAfter: { duration: 600 }
     },
     { text: " so let's " },
@@ -305,7 +305,7 @@ export default function Home() {
       
       <main ref={mainRef} className="flex min-h-screen justify-center">
         <div className="text-left max-w-[500px] w-full px-4 pt-[8vh] sm:pt-[8vh] md:pt-[8vh] pb-16">
-          {/* Header with theme toggle and SF time */}
+          {/* Header with theme toggle and EST time */}
           <Header 
             currentTime={currentTime} 
             showHeaderElements={showHeaderElements}
