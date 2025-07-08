@@ -42,14 +42,70 @@ export default function Header({ currentTime, showHeaderElements, ThemeToggleCom
       {/* Non-critical elements - render after mount */}
       {isMounted && (
         <>
-          <div 
-            className={`text-xl opacity-0 min-w-[120px] transition-all ${showHeaderElements ? 'opacity-85 hover:opacity-100 translate-x-0' : 'translate-x-8'}`}
-            style={{ 
-              transitionDuration: 'var(--animation-header)',
-              transitionTimingFunction: 'var(--transition-timing)'
-            }}
-          >
-            {currentTime}
+          <div className="relative">
+            <div 
+              className={`text-xl opacity-0 min-w-[120px] transition-all ${showHeaderElements ? 'opacity-85 hover:opacity-100 translate-x-0' : 'translate-x-8'}`}
+              style={{ 
+                transitionDuration: 'var(--animation-header)',
+                transitionTimingFunction: 'var(--transition-timing)'
+              }}
+            >
+              {currentTime}
+            </div>
+            
+            {/* Arrow and tooltip */}
+            <div 
+              className={`absolute -top-12 left-0 opacity-0 transition-all ${showHeaderElements ? 'opacity-100' : 'translate-y-2'}`}
+              style={{ 
+                transitionDuration: 'var(--animation-header)',
+                transitionDelay: showHeaderElements ? '0.3s' : '0s',
+                transitionTimingFunction: 'var(--transition-timing)'
+              }}
+            >
+              {/* Arrow */}
+              <svg 
+                width="60" 
+                height="30" 
+                viewBox="0 0 60 30" 
+                fill="none" 
+                xmlns="http://www.w3.org/2000/svg"
+                className="absolute top-6 left-8"
+              >
+                <path 
+                  d="M5 5 Q20 15 35 25" 
+                  stroke="#FF1744" 
+                  strokeWidth="2" 
+                  fill="none"
+                  markerEnd="url(#arrowhead)"
+                />
+                <defs>
+                  <marker
+                    id="arrowhead"
+                    markerWidth="10"
+                    markerHeight="7"
+                    refX="9"
+                    refY="3.5"
+                    orient="auto"
+                  >
+                    <polygon
+                      points="0 0, 10 3.5, 0 7"
+                      fill="#FF1744"
+                    />
+                  </marker>
+                </defs>
+              </svg>
+              
+              {/* Tooltip bubble */}
+              <div className="bg-[#FF1744] text-white px-4 py-2 rounded-lg relative shadow-sm">
+                <span className="text-sm font-medium whitespace-nowrap">my local time!</span>
+                {/* Speech bubble tail */}
+                <div className="absolute -bottom-2 left-10 w-0 h-0 
+                  border-l-[6px] border-l-transparent
+                  border-t-[8px] border-t-[#FF1744]
+                  border-r-[6px] border-r-transparent">
+                </div>
+              </div>
+            </div>
           </div>
           
           <div 

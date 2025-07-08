@@ -11,6 +11,7 @@ import ContentSections from "./components/sections/ContentSections";
 import SocialLinks from "./components/sections/SocialLinks";
 import Footer from "./components/sections/Footer";
 import Header from "./components/sections/Header";
+import LastVisitor from "./components/sections/LastVisitor";
 import { ANIMATIONS } from './utils/animation';
 
 // Define the PausePoint interface
@@ -358,6 +359,9 @@ export default function Home() {
           )}
         </div>
       </main>
+      
+      {/* Last visitor tracker */}
+      <LastVisitor />
     </>
   );
 }
