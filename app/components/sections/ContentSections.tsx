@@ -38,8 +38,8 @@ export default function ContentSections({ baseDelay, delayIncrement }: ContentSe
 
       <section aria-labelledby="convictions-quote" className="mt-6 mb-8">
         <FadeIn delay={baseDelay + delayIncrement * 5}>
-          <p className="text-base italic text-gray-400">
-            "our convictions are not held back by our circumstances."
+          <p className="text-base italic text-neutral-400 text-center">
+            our convictions are not limited by our circumstances.
           </p>
         </FadeIn>
       </section>
