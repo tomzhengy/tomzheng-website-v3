@@ -35,6 +35,14 @@ export default function ContentSections({ baseDelay, delayIncrement }: ContentSe
         <h2 id="thinking " className="text-xl mb-2">i also swim (competitively), gym, read, and love creating experiences.</h2>
       </FadeIn>
       </section>
+
+      <section aria-labelledby="convictions-quote" className="mt-6 mb-8">
+        <FadeIn delay={baseDelay + delayIncrement * 5}>
+          <p className="text-xl italic">
+            "our convictions are not held back by our circumstances."
+          </p>
+        </FadeIn>
+      </section>
     </>
   );
 } 
