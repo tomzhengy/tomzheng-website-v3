@@ -53,58 +53,42 @@ export default function Header({ currentTime, showHeaderElements, ThemeToggleCom
               {currentTime}
             </div>
             
-            {/* Arrow and tooltip */}
+            {/* Arrow and text */}
             <div 
-              className={`absolute -top-12 left-0 opacity-0 transition-all ${showHeaderElements ? 'opacity-100' : 'translate-y-2'}`}
+              className={`absolute -top-12 left-8 opacity-0 transition-all ${showHeaderElements ? 'opacity-50' : 'opacity-0 -translate-y-2'}`}
               style={{ 
                 transitionDuration: 'var(--animation-header)',
-                transitionDelay: showHeaderElements ? '0.3s' : '0s',
+                transitionDelay: showHeaderElements ? '0.6s' : '0s',
                 transitionTimingFunction: 'var(--transition-timing)'
               }}
             >
-              {/* Arrow */}
+              {/* Simple text with slant */}
+              <span 
+                className="text-xs italic text-foreground/50 whitespace-nowrap inline-block"
+                style={{ transform: 'rotate(-5deg)' }}
+              >
+                my local time!
+              </span>
+              
+              {/* Smooth curved arrow pointing down */}
               <svg 
-                width="60" 
+                width="50" 
                 height="30" 
-                viewBox="0 0 60 30" 
+                viewBox="0 0 50 30" 
                 fill="none" 
                 xmlns="http://www.w3.org/2000/svg"
-                className="absolute top-6 left-8"
+                className="absolute top-5 left-0"
               >
                 <path 
-                  d="M5 5 Q20 15 35 25" 
-                  stroke="#FF1744" 
-                  strokeWidth="2" 
+                  d="M 35 2 Q 20 12 8 24 L 10 21 M 8 24 L 11 23" 
+                  stroke="currentColor" 
+                  strokeWidth="1" 
                   fill="none"
-                  markerEnd="url(#arrowhead)"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  opacity="0.3"
                 />
-                <defs>
-                  <marker
-                    id="arrowhead"
-                    markerWidth="10"
-                    markerHeight="7"
-                    refX="9"
-                    refY="3.5"
-                    orient="auto"
-                  >
-                    <polygon
-                      points="0 0, 10 3.5, 0 7"
-                      fill="#FF1744"
-                    />
-                  </marker>
-                </defs>
               </svg>
-              
-              {/* Tooltip bubble */}
-              <div className="bg-[#FF1744] text-white px-4 py-2 rounded-lg relative shadow-sm">
-                <span className="text-sm font-medium whitespace-nowrap">my local time!</span>
-                {/* Speech bubble tail */}
-                <div className="absolute -bottom-2 left-10 w-0 h-0 
-                  border-l-[6px] border-l-transparent
-                  border-t-[8px] border-t-[#FF1744]
-                  border-r-[6px] border-r-transparent">
-                </div>
-              </div>
             </div>
           </div>
           
