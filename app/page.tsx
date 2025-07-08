@@ -245,29 +245,9 @@ export default function Home() {
         </a>
       )
     },
-    { text: " i always reply" },
-    { 
-      text: ".",
+    { text: " i always reply",
       pauseAfter: { duration: 600 }
     },
-    { 
-      text: " ",
-      render: (): ReactNode => <br />,
-      pauseAfter: { duration: 500 }
-    },
-    { 
-      text: " ",
-      render: (): ReactNode => <br />,
-      pauseAfter: { duration: 700 }
-    },
-    { 
-      text: "as always,",
-      pauseAfter: { duration: 600 }
-    },
-    { 
-      text: " more coming soon ;)",
-      pauseAfter: { duration: 300 }
-    }
   ];
   
   // Calculate pause points based on segment pause data
@@ -314,7 +294,7 @@ export default function Home() {
               "name": "clado",
               "url": "https://clado.ai"
             },
-            "knowsAbout": ["Programming", "Entrepreneurship", "Community Building", "Y Combinator", "O1 Visa", "SDX", "UCSD", "San Francisco", "Founder", "Engineer", "Clado", "Clado AI", "clado.ai", "Tom Zheng", "Tom", "Founder", "Engineer"],
+            "knowsAbout": ["Programming", "Entrepreneurship", "Community Building", "Y Combinator", "`O1 Visa`", "SDX", "UCSD", "San Francisco", "Founder", "Engineer", "Clado", "Clado AI", "clado.ai", "Tom Zheng", "Tom", "Founder", "Engineer"],
             "sameAs": [
               "https://www.sdx.community/chapters/ucsd", "https://clado.ai", "https://tyzheng.com", "https://tomzhe.ng", "https://tomzheng.dev", "https://linkedin.com/in/tomzheng"
             ]
