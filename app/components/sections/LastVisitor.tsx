@@ -17,6 +17,7 @@ export default function LastVisitor() {
   useEffect(() => {
     // Skip if Supabase is not configured
     if (!supabase) {
+      console.log('Supabase not configured - skipping visitor tracking');
       setLoading(false);
       return;
     }
@@ -26,7 +27,19 @@ export default function LastVisitor() {
       try {
         // Get location using ipapi.co (works from browser too)
         const locationResponse = await fetch('https://ipapi.co/json/');
+        
+        if (!locationResponse.ok) {
+          console.log('Location API rate limited or unavailable');
+          return;
+        }
+        
         const locationData = await locationResponse.json();
+        
+        // Check if we got an error response from ipapi
+        if (locationData.error || locationData.reason === 'RateLimited') {
+          console.log('Location API rate limited:', locationData.message || 'Too many requests');
+          return;
+        }
         
         // Track this visit
         const { error: trackError } = await supabase
@@ -38,10 +51,16 @@ export default function LastVisitor() {
           });
           
         if (trackError) {
-          console.error('Error tracking visit:', trackError);
+          // Only log if it's not a typical development error
+          if (trackError.message && !trackError.message.includes('Failed to fetch')) {
+            console.log('Visitor tracking disabled:', trackError.message);
+          }
         }
       } catch (error) {
-        console.error('Error getting location:', error);
+        // Silently handle errors in development
+        if (error instanceof Error && !error.message.includes('Failed to fetch')) {
+          console.log('Visitor tracking unavailable');
+        }
       }
     };
 
@@ -56,12 +75,13 @@ export default function LastVisitor() {
           .single();
           
         if (error && error.code !== 'PGRST116') {
-          console.error('Error fetching last visitor:', error);
+          // Only log if it's not a "no rows" error
+          console.log('Could not fetch last visitor');
         } else if (data) {
           setLastVisitor(data);
         }
       } catch (error) {
-        console.error('Error:', error);
+        // Silently handle in development
       } finally {
         setLoading(false);
       }
