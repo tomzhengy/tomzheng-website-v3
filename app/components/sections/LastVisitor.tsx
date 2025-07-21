@@ -71,7 +71,7 @@ export default function LastVisitor() {
           .from('visitors')
           .select('city, country, visited_at')
           .order('visited_at', { ascending: false })
-          .limit(1)
+          .range(1, 1)  // Get the second row (skip the current visitor)
           .single();
           
         if (error && error.code !== 'PGRST116') {
@@ -101,14 +101,19 @@ export default function LastVisitor() {
         schema: 'public', 
         table: 'visitors' 
       }, (payload: any) => {
-        // Update with the new visitor
-        if (payload.new) {
+        // When a new visitor arrives, the current "last visitor" becomes the second-to-last
+        // So we don't need to update the display - it should still show the previous visitor
+        // Only update if we're currently showing no visitor
+        if (!lastVisitor && payload.new) {
+          // This handles the edge case where there was no previous visitor
+          // In this case, we can show the new visitor as the "last" visitor
           setLastVisitor({
             city: payload.new.city,
             country: payload.new.country,
             visited_at: payload.new.visited_at
           });
         }
+        // Otherwise, keep showing the same "last visitor" (which is now second-to-last)
       })
       .subscribe();
 
