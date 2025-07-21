@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import FadeIn from "../ui/animation/FadeIn";
 import { supabase } from "@/app/lib/supabase-client";
 
 interface Visitor {
@@ -128,10 +127,8 @@ export default function LastVisitor() {
   }
 
   return (
-    <FadeIn delay={1000} className="fixed bottom-4 right-4 z-40">
-      <div className="text-xs text-neutral-400">
-        Last visit from {lastVisitor.city}, {lastVisitor.country}
-      </div>
-    </FadeIn>
+    <div className="text-sm text-neutral-500 mb-2">
+      last visit from {lastVisitor.city}, {lastVisitor.country}
+    </div>
   );
 } 

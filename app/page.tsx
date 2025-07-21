@@ -17,12 +17,12 @@ export default function Home() {
   const [currentTime, setCurrentTime] = useState<string>('');
   const [showHeaderElements, setShowHeaderElements] = useState(false);
   const mainRef = useRef<HTMLDivElement>(null);
-
+  
   // Effect to show header elements after a short delay
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowHeaderElements(true);
-    }, 500); // Small delay for the header lines animation
+    }, 300); // Reduced delay since we only have time and theme toggle
     
     return () => clearTimeout(timer);
   }, []);
@@ -100,16 +100,19 @@ export default function Home() {
           {/* Content sections */}
           <ContentSections />
           
-          {/* Social links */}
-          <SocialLinks />
-          
-          {/* Footer */}
-          <Footer />
+          {/* Bottom section */}
+          <div className="mt-12">
+            {/* Social links */}
+            <SocialLinks />
+            
+            {/* Last visitor tracker */}
+            <LastVisitor />
+            
+            {/* Footer */}
+            <Footer />
+          </div>
         </div>
       </main>
-      
-      {/* Last visitor tracker */}
-      <LastVisitor />
     </>
   );
 }
