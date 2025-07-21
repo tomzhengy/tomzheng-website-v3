@@ -30,10 +30,6 @@
   --animation-short: 0.3s;
   --animation-medium: 0.5s;
   --animation-long: 0.8s;
-  
-  /* Cursor blink settings */
-  --cursor-blink-speed: 0.6s;
-  --cursor-blink-interval: 300ms;
 }
 
 /* Light mode overrides when .light class is present */
@@ -93,25 +89,6 @@ a svg, button svg {
   pointer-events: none;
   z-index: 10;
   transition: box-shadow var(--transition-duration) var(--transition-timing);
-}
-
-/* Blinking cursor animation */
-@keyframes blink {
-  0% { opacity: 1; }
-  50% { opacity: 0; }
-  100% { opacity: 1; }
-}
-
-.cursor-blink {
-  display: inline-block;
-  margin-left: 2px;
-  animation: blink var(--cursor-blink-speed) ease-in-out infinite;
-}
-
-/* When typing, pause the animation and keep cursor visible */
-.cursor-blink.typing {
-  animation-play-state: paused; /* Pause the animation */
-  opacity: 1; /* Keep cursor fully visible */
 }
 
 /* Fade animations */

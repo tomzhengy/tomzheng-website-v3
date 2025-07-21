@@ -39,12 +39,6 @@ export const ANIMATIONS = {
   FADE_IN: () => getCssVarAsNumber('--animation-fade-in', 600),
   FADE_OUT: () => getCssVarAsNumber('--animation-fade-out', 500),
   
-  // Cursor blink
-  CURSOR_BLINK: {
-    SPEED: () => getCssVar('--cursor-blink-speed', '1.06s'),
-    INTERVAL: () => getCssVarAsNumber('--cursor-blink-interval', 530),
-  },
-  
   // Notification durations
   TOAST: {
     SHORT: 2000,
