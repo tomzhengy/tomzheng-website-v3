@@ -3,7 +3,7 @@
 export default function ContentSections() {
   return (
     <>
-      <section aria-labelledby="current-activities" className="mt-10 mb-8">
+      <section aria-labelledby="current-activities" className="mt-6 mb-6">
           <h2 id="current-activities" className="text-xl mb-2">my time:</h2>
         <ul className="list-disc pl-5 space-y-1">
             <li className="text-xl">connecting people @ <a href="https://clado.ai" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-300 hover:decoration-white transition-colors">clado</a> (YC X25)</li>
@@ -13,11 +13,11 @@ export default function ContentSections() {
         </ul>
       </section>
 
-      <section aria-labelledby="thinking thoughts" className="mt-10 mb-8">
+      <section aria-labelledby="thinking thoughts" className="mt-6 mb-6">
         <h2 id="thinking " className="text-xl mb-2">i also swim (competitively), gym, read, and love creating experiences.</h2>
       </section>
 
-      <section aria-labelledby="convictions-quote" className="mt-6 mb-8">
+      <section aria-labelledby="convictions-quote" className="mt-4 mb-4">
           <p className="text-base italic text-neutral-400 text-center">
             our convictions are not limited by our circumstances.
           </p>

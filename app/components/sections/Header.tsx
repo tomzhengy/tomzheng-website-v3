@@ -87,7 +87,7 @@ export default function Header({ currentTime, showHeaderElements, ThemeToggleCom
                 transitionTimingFunction: 'var(--transition-timing)'
               }}
             >
-              <a href="#" className="hover:underline transition-all">photography</a>
+              <a href="#" className="hover:underline transition-all">readings</a>
               <span className="mx-2">•</span>
               <a href="#" className="hover:underline transition-all">writings</a>
             </div>

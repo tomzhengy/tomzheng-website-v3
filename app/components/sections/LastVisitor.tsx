@@ -127,7 +127,7 @@ export default function LastVisitor() {
   }
 
   return (
-    <div className="text-sm text-neutral-500 mb-2">
+    <div className="text-sm text-neutral-500 mb-3">
       last visit from {lastVisitor.city}, {lastVisitor.country}
     </div>
   );

@@ -101,7 +101,7 @@ export default function Home() {
           <ContentSections />
           
           {/* Bottom section */}
-          <div className="mt-12">
+          <div className="mt-6">
             {/* Social links */}
             <SocialLinks />
             
