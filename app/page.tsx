@@ -12,14 +12,14 @@ import LastVisitor from "./components/sections/LastVisitor";
 
 import ThemeToggle from './components/ui/theme/ThemeToggle';
 
-// Helper function to get EST time
-function getESTTime() {
+// Helper function to get PDT time
+function getPDTTime() {
   const options: Intl.DateTimeFormatOptions = { 
     hour: 'numeric', 
     minute: '2-digit',
     second: '2-digit',
     hour12: false,
-    timeZone: 'America/New_York'
+    timeZone: 'America/Los_Angeles'
   };
   return new Date().toLocaleTimeString('en-US', options);
 }
@@ -29,21 +29,21 @@ export default function Home() {
   const [currentTime, setCurrentTime] = useState<string>(() => {
     // Use a placeholder on server, actual time will be set on client
     if (typeof window === 'undefined') return '00:00:00';
-    return getESTTime();
+    return getPDTTime();
   });
   const mainRef = useRef<HTMLDivElement>(null);
 
-  // Effect to update the EST time every second
+  // Effect to update the PDT time every second
   useEffect(() => {
-    const updateESTTime = () => {
-      setCurrentTime(getESTTime());
+    const updatePDTTime = () => {
+      setCurrentTime(getPDTTime());
     };
     
     // Initial update
-    updateESTTime();
+    updatePDTTime();
     
     // Set interval to update every second
-    const interval = setInterval(updateESTTime, 1);
+    const interval = setInterval(updatePDTTime, 1);
     
     return () => clearInterval(interval);
   }, []);
@@ -75,7 +75,7 @@ export default function Home() {
       
       <main ref={mainRef} className="flex min-h-screen justify-center">
         <div className="text-left max-w-[500px] w-full px-4 pt-[8vh] sm:pt-[8vh] md:pt-[8vh] pb-16">
-          {/* Header with theme toggle and EST time */}
+          {/* Header with theme toggle and PDT time */}
           <Header 
             currentTime={currentTime} 
             ThemeToggleComponent={ThemeToggle}
