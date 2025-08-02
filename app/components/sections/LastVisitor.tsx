@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { supabase } from "@/app/lib/supabase-client";
 
 interface Visitor {
@@ -12,6 +12,8 @@ interface Visitor {
 export default function LastVisitor() {
   const [lastVisitor, setLastVisitor] = useState<Visitor | null>(null);
   const [loading, setLoading] = useState(true);
+  const [displayedLocation, setDisplayedLocation] = useState<string>("");
+  const typedLocationRef = useRef<string>("");
 
   useEffect(() => {
     // Skip if Supabase is not configured
@@ -122,13 +124,57 @@ export default function LastVisitor() {
     };
   }, []);
 
-  if (loading || !lastVisitor || !supabase) {
+  // Typewriter effect when location data is loaded
+  useEffect(() => {
+    if (lastVisitor && lastVisitor.city && lastVisitor.country) {
+      const location = `${lastVisitor.city}, ${lastVisitor.country}`;
+      
+      // Only run typewriter if this is a new location
+      if (typedLocationRef.current === location) {
+        setDisplayedLocation(location);
+        return;
+      }
+      
+      typedLocationRef.current = location;
+      let currentIndex = 0;
+      setDisplayedLocation("");
+
+      const typeInterval = setInterval(() => {
+        if (currentIndex < location.length) {
+          setDisplayedLocation(location.substring(0, currentIndex + 1));
+          currentIndex++;
+        } else {
+          clearInterval(typeInterval);
+        }
+      }, 50); // Adjust speed as needed
+
+      return () => clearInterval(typeInterval);
+    }
+  }, [lastVisitor]);
+
+  // Always show "last visit from" text
+  if (!supabase) {
     return null;
   }
 
+  // Don't render if we're still loading or if there's no visitor data
+  if (loading) {
+    return (
+      <div className="text-sm text-foreground/50 mb-3">
+        last visit from <span className="inline-block animate-[blink_1s_ease-in-out_infinite]">|</span>
+      </div>
+    );
+  }
+
+  if (!lastVisitor || !lastVisitor.city || !lastVisitor.country) {
+    return null;
+  }
+
+  const fullLocation = `${lastVisitor.city}, ${lastVisitor.country}`;
+
   return (
-    <div className="text-sm text-neutral-500 mb-3">
-      last visit from {lastVisitor.city}, {lastVisitor.country}
+    <div className="text-sm text-foreground/50 mb-3">
+      last visit from {displayedLocation}<span className="inline-block animate-[blink_1s_ease-in-out_infinite]">|</span>
     </div>
   );
 } 

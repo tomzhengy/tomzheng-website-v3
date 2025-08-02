@@ -102,6 +102,11 @@ a svg, button svg {
   to { opacity: 0; }
 }
 
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
 .animate-fade-in {
   animation: fadeIn var(--animation-fade-in) ease-in-out forwards;
   opacity: 0;  /* Start invisible to ensure smooth animation */
