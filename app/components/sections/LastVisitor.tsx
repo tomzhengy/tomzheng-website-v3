@@ -14,7 +14,8 @@ export default function LastVisitor() {
   const [loading, setLoading] = useState(true);
   const [displayedLocation, setDisplayedLocation] = useState<string>("");
   const [isTyping, setIsTyping] = useState(false);
-  const typedLocationRef = useRef<string>("");
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const currentLocationRef = useRef<string>("");
 
   useEffect(() => {
     // Skip if Supabase is not configured
@@ -66,95 +67,119 @@ export default function LastVisitor() {
       }
     };
 
-    // Fetch last visitor
-    const fetchLastVisitor = async () => {
+    // Fetch visitor by row index (0 = first row, 1 = second row)
+    const fetchVisitorByIndex = async (index: number) => {
       try {
         const { data, error } = await supabase
           .from('visitors')
           .select('city, country, visited_at')
           .order('visited_at', { ascending: false })
-          .range(1, 1)  // Get the second row (skip the current visitor)
+          .range(index, index)
           .single();
           
         if (error && error.code !== 'PGRST116') {
           // Only log if it's not a "no rows" error
-          console.log('Could not fetch last visitor');
+          console.log('Could not fetch visitor');
         } else if (data) {
           setLastVisitor(data);
         }
       } catch (error) {
         // Silently handle in development
-      } finally {
-        setLoading(false);
       }
     };
 
-    // Track visit and then fetch last visitor
+    // Initial fetch - get second row
+    const fetchInitialVisitor = async () => {
+      await fetchVisitorByIndex(1);
+      setLoading(false);
+    };
+
+    // Track visit and then fetch initial visitor
     getLocationAndTrack().then(() => {
       // Wait a bit to ensure the database has updated
-      setTimeout(fetchLastVisitor, 1000);
+      setTimeout(() => {
+        fetchInitialVisitor().then(() => {
+          // After initial load (showing 2nd row), start cycling to show the 1st row every 5 seconds
+          // This creates the effect: 2nd row → 1st row → 1st row → 1st row...
+          const interval = setInterval(() => {
+            fetchVisitorByIndex(0); // Fetch the most recent visitor (first row)
+          }, 5000);
+
+          // Store interval ID for cleanup
+          intervalRef.current = interval;
+        });
+      }, 1000);
     });
 
-    // Set up real-time subscription for new visitors
-    const subscription = supabase
-      .channel('visitors-channel')
-      .on('postgres_changes', { 
-        event: 'INSERT', 
-        schema: 'public', 
-        table: 'visitors' 
-      }, (payload: any) => {
-        // When a new visitor arrives, the current "last visitor" becomes the second-to-last
-        // So we don't need to update the display - it should still show the previous visitor
-        // Only update if we're currently showing no visitor
-        if (!lastVisitor && payload.new) {
-          // This handles the edge case where there was no previous visitor
-          // In this case, we can show the new visitor as the "last" visitor
-          setLastVisitor({
-            city: payload.new.city,
-            country: payload.new.country,
-            visited_at: payload.new.visited_at
-          });
-        }
-        // Otherwise, keep showing the same "last visitor" (which is now second-to-last)
-      })
-      .subscribe();
-
-    // Cleanup subscription
+    // Cleanup interval on unmount
     return () => {
-      subscription.unsubscribe();
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
     };
-  }, []);
+  }, []); // Empty dependency array ensures this only runs once on mount
 
   // Typewriter effect when location data is loaded
   useEffect(() => {
     if (lastVisitor && lastVisitor.city && lastVisitor.country) {
-      const location = `${lastVisitor.city}, ${lastVisitor.country}`;
+      const newLocation = `${lastVisitor.city}, ${lastVisitor.country}`;
       
       // Only run typewriter if this is a new location
-      if (typedLocationRef.current === location) {
-        setDisplayedLocation(location);
+      if (currentLocationRef.current === newLocation) {
         return;
       }
       
-      typedLocationRef.current = location;
-      let currentIndex = 0;
-      setDisplayedLocation("");
       setIsTyping(true);
-
-      const typeInterval = setInterval(() => {
-        if (currentIndex < location.length) {
-          setDisplayedLocation(location.substring(0, currentIndex + 1));
-          currentIndex++;
-        } else {
+      
+      // If there's existing text, do reverse typewriter first
+      if (displayedLocation.length > 0) {
+        let currentLength = displayedLocation.length;
+        
+        const eraseInterval = setInterval(() => {
+          if (currentLength > 0) {
+            setDisplayedLocation(prev => prev.substring(0, currentLength - 1));
+            currentLength--;
+          } else {
+            clearInterval(eraseInterval);
+            
+            // Now type the new location
+            let typeIndex = 0;
+            const typeInterval = setInterval(() => {
+              if (typeIndex < newLocation.length) {
+                setDisplayedLocation(newLocation.substring(0, typeIndex + 1));
+                typeIndex++;
+              } else {
+                clearInterval(typeInterval);
+                setIsTyping(false);
+                currentLocationRef.current = newLocation;
+              }
+            }, 40); // Normal typing speed
+          }
+        }, 20); // 50% faster for erasing (20ms instead of 40ms)
+        
+        return () => {
+          clearInterval(eraseInterval);
+          setIsTyping(false);
+        };
+      } else {
+        // No existing text, just type normally
+        let typeIndex = 0;
+        const typeInterval = setInterval(() => {
+          if (typeIndex < newLocation.length) {
+            setDisplayedLocation(newLocation.substring(0, typeIndex + 1));
+            typeIndex++;
+          } else {
+            clearInterval(typeInterval);
+            setIsTyping(false);
+            currentLocationRef.current = newLocation;
+          }
+        }, 40); // Normal typing speed
+        
+        return () => {
           clearInterval(typeInterval);
           setIsTyping(false);
-        }
-      }, 50); // Adjust speed as needed
-
-      return () => {
-        clearInterval(typeInterval);
-        setIsTyping(false);
-      };
+        };
+      }
     }
   }, [lastVisitor]);
 
@@ -166,7 +191,7 @@ export default function LastVisitor() {
   // Don't render if we're still loading or if there's no visitor data
   if (loading) {
     return (
-      <div className="text-sm text-foreground/50 mb-3">
+      <div className="text-sm text-foreground/50 mb-4">
         last visit from <span className="inline-block animate-[blink_0.5s_ease_infinite]">_</span>
       </div>
     );
@@ -179,7 +204,7 @@ export default function LastVisitor() {
   const fullLocation = `${lastVisitor.city}, ${lastVisitor.country}`;
 
   return (
-    <div className="text-sm text-foreground/50 mb-3">
+    <div className="text-sm text-foreground/50 mb-4">
       last visit from {displayedLocation}
       <span className={`inline-block ${isTyping ? '' : 'animate-[blink_0.5s_ease_infinite]'}`}>_</span>
     </div>

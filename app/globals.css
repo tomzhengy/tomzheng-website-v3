@@ -72,11 +72,6 @@ a svg, button svg {
   text-decoration-color: var(--link-hover) !important;
 }
 
-/* Vignette effect */
-.vignette-container {
-  position: relative;
-}
-
 .vignette-container::after {
   content: '';
   position: absolute;

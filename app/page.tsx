@@ -3,42 +3,40 @@
 // import Image from "next/image"; /* Temporarily unused while image is hidden */
 import { Suspense, useState, ReactNode, useEffect, useRef } from "react";
 import Script from "next/script";
-import dynamic from 'next/dynamic';
+
 import ContentSections from "./components/sections/ContentSections";
 import SocialLinks from "./components/sections/SocialLinks";
 import Footer from "./components/sections/Footer";
 import Header from "./components/sections/Header";
 import LastVisitor from "./components/sections/LastVisitor";
 
-// Dynamically import ThemeToggle with no SSR to avoid hydration issues
-const ThemeToggle = dynamic(() => import('./components/ui/theme/ThemeToggle'), { ssr: false });
+import ThemeToggle from './components/ui/theme/ThemeToggle';
+
+// Helper function to get EST time
+function getESTTime() {
+  const options: Intl.DateTimeFormatOptions = { 
+    hour: 'numeric', 
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+    timeZone: 'America/New_York'
+  };
+  return new Date().toLocaleTimeString('en-US', options);
+}
 
 export default function Home() {
-  const [currentTime, setCurrentTime] = useState<string>('');
-  const [showHeaderElements, setShowHeaderElements] = useState(false);
+  // Initialize with a placeholder that matches the time format
+  const [currentTime, setCurrentTime] = useState<string>(() => {
+    // Use a placeholder on server, actual time will be set on client
+    if (typeof window === 'undefined') return '00:00:00';
+    return getESTTime();
+  });
   const mainRef = useRef<HTMLDivElement>(null);
-  
-  // Effect to show header elements after a short delay
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowHeaderElements(true);
-    }, 300); // Reduced delay since we only have time and theme toggle
-    
-    return () => clearTimeout(timer);
-  }, []);
 
   // Effect to update the EST time every second
   useEffect(() => {
     const updateESTTime = () => {
-      const options: Intl.DateTimeFormatOptions = { 
-        hour: 'numeric', 
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false,
-        timeZone: 'America/New_York'
-      };
-      const estTime = new Date().toLocaleTimeString('en-US', options);
-      setCurrentTime(estTime);
+      setCurrentTime(getESTTime());
     };
     
     // Initial update
@@ -80,7 +78,6 @@ export default function Home() {
           {/* Header with theme toggle and EST time */}
           <Header 
             currentTime={currentTime} 
-            showHeaderElements={showHeaderElements}
             ThemeToggleComponent={ThemeToggle}
           />
           
