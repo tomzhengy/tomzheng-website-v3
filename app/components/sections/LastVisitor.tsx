@@ -13,6 +13,7 @@ export default function LastVisitor() {
   const [lastVisitor, setLastVisitor] = useState<Visitor | null>(null);
   const [loading, setLoading] = useState(true);
   const [displayedLocation, setDisplayedLocation] = useState<string>("");
+  const [isTyping, setIsTyping] = useState(false);
   const typedLocationRef = useRef<string>("");
 
   useEffect(() => {
@@ -138,6 +139,7 @@ export default function LastVisitor() {
       typedLocationRef.current = location;
       let currentIndex = 0;
       setDisplayedLocation("");
+      setIsTyping(true);
 
       const typeInterval = setInterval(() => {
         if (currentIndex < location.length) {
@@ -145,10 +147,14 @@ export default function LastVisitor() {
           currentIndex++;
         } else {
           clearInterval(typeInterval);
+          setIsTyping(false);
         }
       }, 50); // Adjust speed as needed
 
-      return () => clearInterval(typeInterval);
+      return () => {
+        clearInterval(typeInterval);
+        setIsTyping(false);
+      };
     }
   }, [lastVisitor]);
 
@@ -161,7 +167,7 @@ export default function LastVisitor() {
   if (loading) {
     return (
       <div className="text-sm text-foreground/50 mb-3">
-        last visit from <span className="inline-block animate-[blink_1s_ease-in-out_infinite]">|</span>
+        last visit from <span className="inline-block animate-[blink_0.5s_ease_infinite]">_</span>
       </div>
     );
   }
@@ -174,7 +180,8 @@ export default function LastVisitor() {
 
   return (
     <div className="text-sm text-foreground/50 mb-3">
-      last visit from {displayedLocation}<span className="inline-block animate-[blink_1s_ease-in-out_infinite]">|</span>
+      last visit from {displayedLocation}
+      <span className={`inline-block ${isTyping ? '' : 'animate-[blink_0.5s_ease_infinite]'}`}>_</span>
     </div>
   );
 } 
