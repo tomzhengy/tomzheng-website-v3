@@ -86,14 +86,9 @@ export default function Home() {
           
           <section aria-labelledby="introduction">
             <div className="text-xl">
-              hey! i'm <b>Tom Zheng</b>—cofounder of <a href="https://clado.ai" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-300 hover:decoration-white transition-colors">clado</a>.<br />
-              i'd love to meet <b>you.</b> so let's <a 
-                href="https://x.com/tomzhengy" 
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline decoration-gray-300 hover:decoration-white transition-colors" 
-                aria-label="Schedule a chat with Tom"
-              >chat.</a> i always reply
+              hey! i'm <b>Tom Zheng</b>.<br />
+              <br />
+              i currently spend most of my time building <a href="https://clado.ai" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-300 hover:decoration-white transition-colors">clado</a>.
             </div>
           </section>
           

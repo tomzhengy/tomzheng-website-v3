@@ -4,7 +4,7 @@ export default function ContentSections() {
   return (
     <>
       <section aria-labelledby="current-activities" className="mt-6 mb-6">
-          <h2 id="current-activities" className="text-xl mb-2">where i'm spending my time:</h2>
+          <h2 id="current-activities" className="text-xl mb-2">on the side, i'm also</h2>
         <ul className="list-disc pl-5 space-y-1">
             
             <li className="text-xl">sharing my thoughts on <a href="https://x.com/tomzhengy" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-300 hover:decoration-white transition-colors">x/twitter</a>.</li>

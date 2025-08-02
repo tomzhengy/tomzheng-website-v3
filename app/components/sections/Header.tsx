@@ -1,6 +1,7 @@
 "use client";
 
 import { ComponentType, useEffect, useState } from "react";
+import Tooltip from '../ui/Tooltip';
 
 interface HeaderProps {
   currentTime: string;
@@ -87,9 +88,13 @@ export default function Header({ currentTime, showHeaderElements, ThemeToggleCom
                 transitionTimingFunction: 'var(--transition-timing)'
               }}
             >
-              <a href="#" className="hover:underline transition-all">readings</a>
+              <Tooltip text="the selfish gene">
+                <a href="#" className="hover:underline transition-all">readings</a>
+              </Tooltip>
               <span className="mx-2">•</span>
-              <a href="#" className="hover:underline transition-all">writings</a>
+              <Tooltip text="coming soon!">
+                <a href="#" className="hover:underline transition-all">writings</a>
+              </Tooltip>
             </div>
             
             {/* Theme toggle */}
