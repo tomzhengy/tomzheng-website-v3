@@ -14,7 +14,6 @@ export default function LastVisitor() {
   const [loading, setLoading] = useState(true);
   const [displayedLocation, setDisplayedLocation] = useState<string>("");
   const [isTyping, setIsTyping] = useState(false);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const currentLocationRef = useRef<string>("");
 
   useEffect(() => {
@@ -98,25 +97,11 @@ export default function LastVisitor() {
     getLocationAndTrack().then(() => {
       // Wait a bit to ensure the database has updated
       setTimeout(() => {
-        fetchInitialVisitor().then(() => {
-          // After initial load (showing 2nd row), start cycling to show the 1st row every 5 seconds
-          // This creates the effect: 2nd row → 1st row → 1st row → 1st row...
-          const interval = setInterval(() => {
-            fetchVisitorByIndex(0); // Fetch the most recent visitor (first row)
-          }, 5000);
-
-          // Store interval ID for cleanup
-          intervalRef.current = interval;
-        });
+        fetchInitialVisitor();
       }, 1000);
     });
 
-    // Cleanup interval on unmount
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-    };
+
   }, []); // Empty dependency array ensures this only runs once on mount
 
   // Typewriter effect when location data is loaded
