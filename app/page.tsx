@@ -82,11 +82,16 @@ export default function Home() {
           />
           
           <section aria-labelledby="introduction">
-            <div className="text-xl">
-              hey! i'm <b>Tom Zheng</b>.<br />
+            <div className="text-lg">
+              Hey, my name is Tom. I currently spend my time building <a href="https://clado.ai" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-300 hover:decoration-white transition-colors">Clado</a>.
               <br />
-              i currently spend most of my time building <a href="https://clado.ai" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-300 hover:decoration-white transition-colors">clado</a>.
+              <br />
+              I grew up in 🇨🇦 and spent a quarter studying Aerospace Engineering @ UCSD before joining YC X25.
+              <br />
+              <br />
+              Contact me via <a href="https://x.com/tomzhengy" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-300 hover:decoration-white transition-colors">x/twitter</a>.
             </div>
+            <hr className="mt-4 border-t border-gray-300 opacity-30" />
           </section>
           
           {/* Content sections */}

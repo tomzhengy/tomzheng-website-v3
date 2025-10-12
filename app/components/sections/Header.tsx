@@ -13,7 +13,7 @@ export default function Header({ currentTime, ThemeToggleComponent }: HeaderProp
     <div className="flex items-center justify-between mb-8 h-8 max-w-[420px]">
       <div className="relative">
         <div 
-          className="text-xl opacity-85 hover:opacity-100 min-w-[120px] h-8 flex items-center transition-all"
+          className="text-lg opacity-85 hover:opacity-100 min-w-[120px] h-8 flex items-center transition-all"
         >
           {currentTime}
         </div>
