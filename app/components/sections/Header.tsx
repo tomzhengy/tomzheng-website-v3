@@ -30,7 +30,7 @@ export default function Header({ currentTime, ThemeToggleComponent }: HeaderProp
               transition: 'color var(--transition-duration) var(--transition-timing)'
             }}
           >
-            my local time!
+            local time!
           </span>
           
           {/* Smooth curved arrow pointing down */}

@@ -1,18 +1,32 @@
 "use client";
 
+import Tooltip from '../ui/Tooltip';
+
 export default function ContentSections() {
   return (
     <>
-      <section aria-labelledby="current-activities" className="mt-6 mb-6">
-          <h2 id="current-activities" className="text-lg mb-2">in my free time i'm</h2>
-        <ul className="list-disc pl-5 space-y-1">
-            
-            <li className="text-lg">sharing my thoughts on <a href="https://x.com/tomzhengy" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-300 hover:decoration-white transition-colors">x/twitter</a>.</li>
-            <li className="text-lg">getting my <a href="https://www.linkedin.com/posts/tomzhengy_super-excited-to-announce-that-i-spent-my-activity-7348086484098273282-9vSN?utm_source=share&utm_medium=member_desktop&rcm=ACoAADeaLpEBNyA26OJUo9uuklk0y_911dt6VSw" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-300 hover:decoration-white transition-colors">O1 visa</a>.</li>
-            <li className="text-lg">scaling <a href="https://www.sdx.community/chapters/ucsd" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-300 hover:decoration-white transition-colors">SDx</a> at ucsd.</li>
-            <li className="text-lg">investing in my friends.</li>
+      <section aria-labelledby="angel-investing" className="mt-6 mb-6">
+        <div className="text-lg">I also angel invest.</div>
+        <ul className="list-disc pl-5 space-y-1 mt-3">
+          <li className="text-lg">
+            <Tooltip text="enabling and benchmarking enterprise-AI adoption">
+              <a href="https://humandelta.ai" target="_blank" rel="noopener noreferrer" className="underline-animated">Human Delta</a>
+            </Tooltip>
+            {" "}(pre-seed)
+          </li>
+          <li className="text-lg">
+            <Tooltip text="context augmentation for AI coding agents">
+              <a href="https://nozomio.com" target="_blank" rel="noopener noreferrer" className="underline-animated">Nozomio</a>
+            </Tooltip>
+            {" "}(seed)
+          </li>
+          <li className="text-lg">
+            <Tooltip text="ai social media search for behaviour prediction">
+              <a href="https://shofo.ai" target="_blank" rel="noopener noreferrer" className="underline-animated">Shofo</a>
+            </Tooltip>
+            {" "}(pre-seed)
+          </li>
         </ul>
-        <div className="text-lg">The easiest way to get in touch with me is via <a href="https://x.com/tomzhengy" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-300 hover:decoration-white transition-colors">x/twitter</a>.</div>
       </section>
     </>
   );
