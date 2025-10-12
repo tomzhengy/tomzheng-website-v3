@@ -41,16 +41,15 @@ export default function ImageTooltip({
           className="absolute pointer-events-none z-10 bg-black/80 rounded p-2"
           style={{
             left: `${position.x + 10}px`,
-            top: `${position.y - height - 20}px`,
+            top: `${position.y - height - 30}px`,
+            width: `${width}px`,
+            height: `${height}px`,
           }}
         >
           <img 
             src={imageSrc} 
             alt={imageAlt}
-            width={width}
-            height={height}
-            className="rounded"
-            style={{ width: `${width}px`, height: `${height}px`, objectFit: 'contain' }}
+            className="w-full h-full object-contain rounded"
           />
         </div>
       )}

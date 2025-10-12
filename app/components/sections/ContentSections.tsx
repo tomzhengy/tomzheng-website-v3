@@ -5,7 +5,7 @@ import Tooltip from '../ui/Tooltip';
 export default function ContentSections() {
   return (
     <>
-      <section aria-labelledby="angel-investing" className="mt-6 mb-6">
+      <section aria-labelledby="angel-investing" className="mt-6 mb-12">
         <div className="text-lg">I also angel invest.</div>
         <ul className="list-disc pl-5 space-y-1 mt-3">
           <li className="text-lg">
