@@ -12,6 +12,7 @@ import LastVisitor from "./components/sections/LastVisitor";
 
 import ThemeToggle from './components/ui/theme/ThemeToggle';
 import ImageTooltip from './components/ui/ImageTooltip';
+import Tooltip from './components/ui/Tooltip';
 
 // Helper function to get PDT time
 function getPDTTime() {
@@ -33,6 +34,19 @@ export default function Home() {
     return getPDTTime();
   });
   const mainRef = useRef<HTMLDivElement>(null);
+  const [emailCopied, setEmailCopied] = useState(false);
+
+  // Email copy handler
+  const handleEmailClick = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    try {
+      await navigator.clipboard.writeText("tomzheng1012@gmail.com");
+      setEmailCopied(true);
+      setTimeout(() => setEmailCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy email:', err);
+    }
+  };
 
   // Effect to update the PDT time every second
   useEffect(() => {
@@ -90,7 +104,7 @@ export default function Home() {
               I grew up in 🇨🇦 and spent a semester building <a href="https://sdxucsd.com/" target="_blank" rel="noopener noreferrer" className="underline-animated">SDx</a> @ UCSD before joining <ImageTooltip imageSrc="/yc-x25.webp" imageAlt="Y Combinator X25" width={220} height={220}><span className="underline-animated">YC X25</span></ImageTooltip>.
               <br />
               <br />
-              Contact me via <a href="https://x.com/tomzhengy" target="_blank" rel="noopener noreferrer" className="underline-animated">x/twitter</a>.
+              Contact me: <Tooltip text={emailCopied ? "copied!" : "copy"}><a href="#" onClick={handleEmailClick} className="underline-animated cursor-pointer">email</a></Tooltip> or <a href="https://x.com/tomzhengy" target="_blank" rel="noopener noreferrer" className="underline-animated">x/twitter</a>.
             </div>
             <hr className="mt-4 border-t border-gray-300 opacity-30" />
           </section>
