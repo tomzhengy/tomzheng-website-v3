@@ -38,7 +38,7 @@ export default function ImageTooltip({
       {children}
       {isVisible && (
         <div
-          className="absolute pointer-events-none z-10 bg-black/80 rounded p-2"
+          className="absolute pointer-events-none z-10 bg-black p-2"
           style={{
             left: `${position.x + 10}px`,
             top: `${position.y - height - 30}px`,
@@ -49,7 +49,7 @@ export default function ImageTooltip({
           <img 
             src={imageSrc} 
             alt={imageAlt}
-            className="w-full h-full object-contain rounded"
+            className="w-full h-full object-contain"
           />
         </div>
       )}

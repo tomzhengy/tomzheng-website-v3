@@ -10,7 +10,7 @@ interface HeaderProps {
 
 export default function Header({ currentTime, ThemeToggleComponent }: HeaderProps) {
   return (
-    <div className="flex items-center justify-between mb-8 h-8 max-w-[420px]">
+    <div className="flex items-center justify-between mb-8 h-8 w-full">
       <div className="relative">
         <div 
           className="text-lg opacity-85 hover:opacity-100 min-w-[120px] h-8 flex items-center transition-all"
@@ -19,10 +19,9 @@ export default function Header({ currentTime, ThemeToggleComponent }: HeaderProp
         </div>
         
         {/* Arrow and text */}
-        <div 
+        {/* <div 
           className="absolute -top-12 left-8 opacity-50"
         >
-          {/* Simple text with slant */}
           <span 
             className="text-xs italic text-foreground/50 whitespace-nowrap inline-block"
             style={{ 
@@ -33,7 +32,6 @@ export default function Header({ currentTime, ThemeToggleComponent }: HeaderProp
             local time!
           </span>
           
-          {/* Smooth curved arrow pointing down */}
           <svg 
             width="50" 
             height="30" 
@@ -55,7 +53,7 @@ export default function Header({ currentTime, ThemeToggleComponent }: HeaderProp
               opacity="0.3"
             />
           </svg>
-        </div>
+        </div> */}
       </div>
       
       <div className="flex items-center gap-6">
@@ -74,7 +72,7 @@ export default function Header({ currentTime, ThemeToggleComponent }: HeaderProp
         
         {/* Theme toggle */}
         <div 
-          className="min-w-[24px] min-h-[24px] flex justify-end opacity-85 hover:opacity-100 transition-all"
+          className="min-w-[24px] min-h-[24px] flex justify-end opacity-85 hover:opacity-100 transition-all ml-auto"
         >
           <div 
             className="transform hover:rotate-12 transition-transform"
