@@ -29,7 +29,7 @@ export default function Tooltip({ children, text }: TooltipProps) {
       {children}
       {isVisible && (
         <div
-          className="absolute pointer-events-none z-10 px-2 py-1 text-xs text-white bg-black/80 rounded whitespace-nowrap"
+          className="absolute pointer-events-none z-10 px-2 py-1 text-xs text-white bg-black rounded whitespace-nowrap"
           style={{
             left: `${position.x + 10}px`,
             top: `${position.y - 30}px`,
