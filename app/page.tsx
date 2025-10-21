@@ -106,7 +106,7 @@ export default function Home() {
               <br />
               Contact me: <Tooltip text={emailCopied ? "copied!" : "copy"}><a href="#" onClick={handleEmailClick} className="underline-animated cursor-pointer">email</a></Tooltip> or <a href="https://x.com/tomzhengy" target="_blank" rel="noopener noreferrer" className="underline-animated">x/twitter</a>.
             </div>
-            <hr className="mt-4 border-t border-gray-300 opacity-100" />
+            <hr className="mt-4 border-t border-gray-400 opacity-55" />
           </section>
           
           {/* Content sections */}
