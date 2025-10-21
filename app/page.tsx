@@ -11,7 +11,6 @@ import Header from "./components/sections/Header";
 import LastVisitor from "./components/sections/LastVisitor";
 
 import ThemeToggle from './components/ui/theme/ThemeToggle';
-import ImageTooltip from './components/ui/ImageTooltip';
 import Tooltip from './components/ui/Tooltip';
 
 // Helper function to get PDT time
@@ -101,7 +100,7 @@ export default function Home() {
               Hey, my name is Tom. I currently spend my time building <a href="https://clado.ai" target="_blank" rel="noopener noreferrer" className="underline-animated">Clado</a>.
               <br />
               <br />
-              I grew up in 🇨🇦 and spent a semester building <a href="https://sdxucsd.com/" target="_blank" rel="noopener noreferrer" className="underline-animated">SDx</a> @ UCSD before joining <ImageTooltip imageSrc="/yc-x25.webp" imageAlt="Y Combinator X25" width={220} height={220}><span className="underline-animated">YC X25</span></ImageTooltip>.
+              I grew up in 🇨🇦 and spent a semester building <a href="https://sdxucsd.com/" target="_blank" rel="noopener noreferrer" className="underline-animated">SDx</a> @ UCSD before joining YC X25.
               <br />
               <br />
               Contact me: <Tooltip text={emailCopied ? "copied!" : "copy"}><a href="#" onClick={handleEmailClick} className="underline-animated cursor-pointer">email</a></Tooltip> or <a href="https://x.com/tomzhengy" target="_blank" rel="noopener noreferrer" className="underline-animated">x/twitter</a>.

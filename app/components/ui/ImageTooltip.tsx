@@ -6,16 +6,16 @@ interface ImageTooltipProps {
   children: ReactNode;
   imageSrc: string;
   imageAlt?: string;
-  width?: number;
-  height?: number;
+  maxWidth?: number;
+  maxHeight?: number;
 }
 
 export default function ImageTooltip({ 
   children, 
   imageSrc, 
   imageAlt = "Tooltip image",
-  width = 200,
-  height = 150 
+  maxWidth = 300,
+  maxHeight = 300 
 }: ImageTooltipProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -41,15 +41,19 @@ export default function ImageTooltip({
           className="absolute pointer-events-none z-10 bg-black p-2"
           style={{
             left: `${position.x + 10}px`,
-            top: `${position.y - height - 30}px`,
-            width: `${width}px`,
-            height: `${height}px`,
+            bottom: `${-position.y + 25}px`,
           }}
         >
           <img 
             src={imageSrc} 
             alt={imageAlt}
-            className="w-full h-full object-contain"
+            style={{
+              maxWidth: `${maxWidth}px`,
+              maxHeight: `${maxHeight}px`,
+              width: 'auto',
+              height: 'auto',
+            }}
+            className="object-contain"
           />
         </div>
       )}
