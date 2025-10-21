@@ -21,7 +21,7 @@ export default function ContentSections() {
             {" "}(seed)
           </li>
           <li className="text-lg">
-            <Tooltip text="ai social media search for behaviour prediction">
+            <Tooltip text="social media search for behaviour prediction">
               <a href="https://shofo.ai" target="_blank" rel="noopener noreferrer" className="underline-animated">Shofo</a>
             </Tooltip>
             {" "}(pre-seed)
