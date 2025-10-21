@@ -26,6 +26,12 @@ export default function ContentSections() {
             </Tooltip>
             {" "}(pre-seed)
           </li>
+          <li className="text-lg">
+            <Tooltip text="mathematics-focused RL environments">
+              <a href="https://hillclimb.ing" target="_blank" rel="noopener noreferrer" className="underline-animated">Hillclimb</a>
+            </Tooltip>
+            {" "}(pre-seed)
+          </li>
         </ul>
       </section>
     </>
